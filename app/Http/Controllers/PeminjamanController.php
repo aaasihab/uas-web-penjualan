@@ -146,7 +146,7 @@ class PeminjamanController extends Controller
         $peminjaman->delete();
 
         // Redirect dengan pesan sukses
-        return redirect()->route('peminjaman.create')->with('success', 'Buku berhasil dikembalikan!');
+        return redirect()->route('master.data.peminjaman.index')->with('success', 'Buku berhasil dikembalikan!');
     }
 
 
