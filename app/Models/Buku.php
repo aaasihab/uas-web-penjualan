@@ -21,7 +21,7 @@ class Buku extends Model
 
     public function peminjaman()
     {
-        return $this->belongsTo(Peminjaman::class, 'id_buku', 'buku_id');
+        return $this->hasOne(Peminjaman::class, 'buku_id', 'id_buku');
     }
 
 }

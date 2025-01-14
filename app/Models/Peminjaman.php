@@ -32,10 +32,6 @@ class Peminjaman extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    // public function buku()
-    // {
-    //     return $this->hasMany(Buku::class, 'buku_id', 'id_buku');
-    // }
     public function buku()
     {
         return $this->belongsTo(Buku::class, 'buku_id', 'id_buku');
