@@ -11,7 +11,7 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('peminjaman', function (Blueprint $table) {
-            $table->integer('buku_id')->unsigned()->after('user_id');;
+            $table->integer('buku_id')->unsigned()->after('user_id');
             
             // Foreign key constraint
             $table->foreign('buku_id')->references('id_buku')->on('buku')
