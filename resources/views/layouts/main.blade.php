@@ -17,10 +17,6 @@
 </head>
 
 <body>
-
-    {{-- untuk toggle tema --}}
-    @include('layouts.theme')
-
     {{-- untuk header --}}
     @include('layouts.header')
 

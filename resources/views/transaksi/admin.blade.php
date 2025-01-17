@@ -6,7 +6,7 @@
 @section('content')
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex flex-wrap justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Daftar Transaksi</h1>
+            <h1 class="h2">Daftar Transaksi Saat ini</h1>
         </div>
 
         <div class="container mt-4">
@@ -21,7 +21,7 @@
                             <th>Jumlah</th>
                             <th>Total Harga</th>
                             <th>Tanggal Transaksi</th>
-                            <th>Aksi</th>
+                            <th>Status</th> <!-- Tambahkan kolom Status -->
                         </tr>
                     </thead>
                     <tbody>
@@ -34,21 +34,13 @@
                                 <td>Rp{{ number_format($item->total_harga, 0, ',', '.') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item->tanggal_transaksi)->format('d-m-Y') }}</td>
                                 <td>
-                                    <form id="update-form-{{ $item->id_transaksi }}"
-                                          action="{{ route('master.data.transaksi.update', $item->id_transaksi) }}"
-                                          method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('PUT')
-                                        <button type="button" class="btn btn-sm btn-outline-danger"
-                                                onclick="confirmUpdate({{ $item->id_transaksi }})">
-                                            Perbarui Transaksi
-                                        </button>
-                                    </form>
+                                    <span class="badge bg-danger">{{ $item->status }}</span> <!-- Menampilkan status -->
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
                 </table>
+
             </div>
         </div>
     </main>
@@ -56,24 +48,6 @@
 
 @section('this-page-scripts')
     <script>
-        function confirmUpdate(id) {
-            Swal.fire({
-                title: "Apakah Anda yakin?",
-                text: "Apakah Anda yakin ingin memperbarui transaksi ini?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#d33",
-                cancelButtonColor: "#3085d6",
-                confirmButtonText: "Ya, perbarui!",
-                cancelButtonText: "Batal",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Submit form untuk memperbarui transaksi
-                    document.getElementById(`update-form-${id}`).submit();
-                }
-            });
-        }
-
         // Tampilkan SweetAlert untuk pesan sukses
         @if (session('success'))
             Swal.fire({

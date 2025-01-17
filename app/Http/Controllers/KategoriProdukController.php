@@ -32,7 +32,7 @@ class KategoriProdukController extends Controller
     {
         $validated = $request->validate(
             [
-                'nama' => 'required|max:255|unique:kategori',
+                'nama' => 'required|max:255|unique:kategori_produk',
                 'keterangan' => 'required|string|max:255',
                 'status' => 'required|in:aktif,nonaktif',
             ],
@@ -86,7 +86,7 @@ class KategoriProdukController extends Controller
     {
         // Validasi input
         $validated = $request->validate([
-            'nama' => 'required|string|max:255|unique:kategori,nama,' . $id . ',id_kategori',
+            'nama' => 'required|string|max:255|unique:kategori_produk,nama,' . $id . ',id_kategori_produk',
             'keterangan' => 'nullable|string|max:255',
             'status' => 'required|in:aktif,nonaktif',
         ], [

@@ -17,7 +17,8 @@ class Transaksi extends Model
         'produk_id',
         'tanggal_transaksi',
         'jumlah',
-        'total_harga'
+        'total_harga',
+        'status'
     ];
 
     public $timestamps = true;
@@ -31,4 +32,10 @@ class Transaksi extends Model
     {
         return $this->belongsTo(Produk::class, 'produk_id', 'id_produk');
     }
+
+    public function pembayaran()
+    {
+        return $this->hasOne(Pembayaran::class, 'transaksi_id', 'id_transaksi');
+    }
+
 }

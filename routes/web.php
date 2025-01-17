@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\KategoriProdukController;
+use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TransaksiController;
@@ -32,11 +33,23 @@ Route::middleware(['auth'])->prefix('master-data')->name('master.data.')->group(
             ->name('create');
 
         Route::post('/store/{produk}', [TransaksiController::class, 'store'])
+            ->middleware('role:pelanggan')
             ->name('store');
-            
+
         Route::put('/{idtransaksi}', [TransaksiController::class, 'update'])
+            ->middleware('role:pelanggan')
             ->name('update');
+
+        Route::delete('/transaksi/{idTransaksi}', [TransaksiController::class, 'destroy'])
+            ->name('destroy');
     });
+
+    Route::prefix('pembayaran')->name('pembayaran.')->group(function () {
+        Route::get('/', [PembayaranController::class, 'index'])
+            ->name('index');
+    });
+
+    // Route::resource('pembayaran', PembayaranController::class);
 
     Route::resource('kategoriProduk', KategoriProdukController::class)->middleware(['role:admin']);
 

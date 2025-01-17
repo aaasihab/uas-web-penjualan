@@ -1,0 +1,149 @@
+@extends('layouts.main')
+
+@section('this-page-style')
+    <style>
+        .table th,
+        .table td {
+            font-size: 1rem;
+            /* Ukuran font standar */
+        }
+
+        /* Media query untuk perangkat dengan lebar layar lebih kecil dari 768px (mobile) */
+        @media (max-width: 768px) {
+
+            .table th,
+            .table td {
+                font-size: 0.875rem;
+                /* Ukuran font yang lebih kecil pada perangkat mobile */
+            }
+        }
+    </style>
+@endsection
+
+@section('content')
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Keranjang Belanja</h1>
+        </div>
+
+        <div class="container mt-4">
+            <!-- Tabel Daftar Transaksi -->
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Produk</th>
+                            <th>Jumlah</th>
+                            <th>Total Harga</th>
+                            <th>Tanggal Transaksi</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($transaksi as $item)
+                            @if ($item->status == 'belum bayar')
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $item->produk->nama }}</td>
+                                    <td>{{ $item->jumlah }}</td>
+                                    <td>Rp{{ number_format($item->total_harga, 0, ',', '.') }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->tanggal_transaksi)->format('d-m-Y') }}</td>
+                                    <td>
+                                        <span class="badge bg-danger">{{ $item->status }}</span>
+                                    </td>
+                                    <td>
+                                        <form id="bayar-form-{{ $item->id_transaksi }}"
+                                            action="{{ route('master.data.transaksi.update', $item->id_transaksi) }}"
+                                            method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="button" class="btn btn-sm btn-outline-secondary"
+                                                onclick="confirmBayar({{ $item->id_transaksi }})">
+                                                Bayar
+                                            </button>
+                                        </form>
+
+                                        <!-- Tombol Hapus -->
+                                        <form id="delete-form-{{ $item->id_transaksi }}"
+                                            action="{{ route('master.data.transaksi.destroy', $item->id_transaksi) }}"
+                                            method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                                onclick="confirmDelete({{ $item->id_transaksi }})">
+                                                Batal
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @endif
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+@endsection
+
+@section('this-page-scripts')
+    <script>
+        function confirmBayar(id) {
+            Swal.fire({
+                title: "Apakah Anda yakin?",
+                text: "Apakah Anda yakin ingin membeli produk ini?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Ya, Bayar!",
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit form untuk memperbarui transaksi
+                    document.getElementById(`bayar-form-${id}`).submit();
+                }
+            });
+        }
+
+        function confirmDelete(id) {
+            Swal.fire({
+                title: "Apakah Anda yakin?",
+                text: "Apakah Anda yakin ingin membatalkan pesanan ini?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Ya, Batal!",
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit form untuk memperbarui transaksi
+                    document.getElementById(`delete-form-${id}`).submit();
+                }
+            });
+        }
+
+        // Tampilkan SweetAlert untuk pesan sukses
+        @if (session('success'))
+            Swal.fire({
+                title: "Berhasil!",
+                text: "{{ session('success') }}",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        @endif
+
+        // Tampilkan SweetAlert untuk pesan error
+        @if (session('error'))
+            Swal.fire({
+                title: "Gagal!",
+                text: "{{ session('error') }}",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+        @endif
+    </script>
+@endsection

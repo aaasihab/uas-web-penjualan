@@ -3,7 +3,7 @@
         aria-labelledby="sidebarMenuLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="sidebarMenuLabel">
-                Toko Kelontong Barokah Abadi
+                Toserba Barokah Abadi
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"
                 aria-label="Close"></button>
@@ -22,39 +22,55 @@
             <h6
                 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
                 <span>Data Master</span>
-                <a class="link-secondary" href="#" aria-label="Add a new report">
-                    <i class="bi bi-plus-circle"></i>
-                </a>
             </h6>
 
             <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2"
                         href="{{ route('master.data.transaksi.index') }}">
-                        <i class="bi bi-cart-check"></i>
-                        Keranjang Belanja
+                        @if (auth()->user()->role == 'admin')
+                            <i class="bi bi-cart4"></i>
+                            Daftar Transaksi
+                        @else
+                            <i class="bi bi-cart-x-fill"></i>
+                            Keranjang Belanja
+                        @endif
+
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2"
-                        href="{{ route('master.data.kategoriProduk.index') }}">
-                        <i class="bi bi-list-ul"></i>
-                        Kategori
+                        href="{{ route('master.data.pembayaran.index') }}">
+                        <i class="bi bi-check-circle"></i>
+                        Pesanan Selesai
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="{{ route('master.data.produk.index') }}">
-                        <i class="bi bi-box"></i>
-                        Produk
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="{{ route('master.data.user.index') }}">
-                        <i class="bi bi-person-circle"></i>
-                        User
-                    </a>
-                </li>
+
+                <!-- Show these only if the user is an admin -->
+                @if (auth()->user()->role == 'admin')
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2"
+                            href="{{ route('master.data.kategoriProduk.index') }}">
+                            <i class="bi bi-list-ul"></i>
+                            Kategori
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2"
+                            href="{{ route('master.data.produk.index') }}">
+                            <i class="bi bi-box"></i>
+                            Produk
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center gap-2"
+                            href="{{ route('master.data.user.index') }}">
+                            <i class="bi bi-person-circle"></i>
+                            User
+                        </a>
+                    </li>
+                @endif
             </ul>
 
             <hr class="my-3" />

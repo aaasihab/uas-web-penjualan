@@ -21,6 +21,8 @@
             background-color: #f0f0f0;
             font-family: 'Poppins', sans-serif;
             color: #333333;
+            height: 100vh;
+            overflow: hidden;
         }
 
         .background {
@@ -52,8 +54,7 @@
         }
 
         form {
-            min-height: 620px;
-            width: 500px;
+            width: 400px;
             background-color: rgba(255, 255, 255, 0.7);
             position: absolute;
             display: flex;
@@ -70,7 +71,7 @@
         }
 
         form h3 {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 500;
             line-height: 15px;
             text-align: center;
@@ -78,27 +79,27 @@
 
         .form-group {
             position: relative;
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
 
         label {
             display: block;
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 500;
             margin-top: 10px;
         }
 
         input {
             display: block;
-            height: 50px;
+            height: 40px;
             width: 100%;
             background-color: rgba(255, 255, 255, 0.3);
             border: 1px solid rgba(0, 0, 0, 0.2);
             border-radius: 3px;
             padding: 0 10px;
-            margin-top: 8px;
-            font-size: 14px;
+            margin-top: 4px;
+            font-size: 12px;
             font-weight: 300;
             transition: all 0.3s ease-in-out;
         }
@@ -115,7 +116,7 @@
             top: 100%;
             left: 0;
             color: #e74c3c;
-            font-size: 13px;
+            font-size: 10px;
             margin-top: 3px;
             display: block;
         }
@@ -130,7 +131,7 @@
             background-color: #007bff;
             color: #ffffff;
             padding: 10px 0;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 600;
             border-radius: 5px;
             cursor: pointer;

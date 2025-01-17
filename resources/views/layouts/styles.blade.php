@@ -5,6 +5,20 @@
 <link href="{{ asset('template/css/bootstrap.min.css') }}" rel="stylesheet" />
 
 <style>
+    /* Default font size */
+    .username-text {
+        font-size: 16px;
+        /* Ukuran default */
+    }
+
+    /* Untuk perangkat dengan lebar layar maksimal 576px (contoh mode mobile) */
+    @media (max-width: 576px) {
+        .username-text {
+            font-size: 12px;
+            /* Ukuran font lebih kecil untuk layar sempit */
+        }
+    }
+
     .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -91,6 +105,3 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet" />
 <!-- Custom styles for this template -->
 <link href="{{ asset('template/css/dashboard.css') }}" rel="stylesheet" />
-
-
-

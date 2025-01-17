@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pembayaran;
 use App\Models\Produk;
 use App\Models\Transaksi;
 use Illuminate\Http\Request;
@@ -16,19 +17,25 @@ class TransaksiController extends Controller
     public function index()
     {
         $user = Auth::user();
-
+    
         if ($user->role === 'pelanggan') {
+            // Ambil transaksi yang hanya statusnya 'belum bayar' untuk pelanggan
             $transaksi = Transaksi::with('produk')
                 ->where('pelanggan_id', $user->id)
+                ->where('status', 'belum bayar') // Validasi status 'belum bayar'
                 ->get();
-
-            return view('transaksi.user', compact('transaksi'));
+    
+            return view('transaksi.pelanggan', compact('transaksi'));
         }
-
-        $transaksi = Transaksi::with(['produk', 'user'])->get();
-
+    
+        // Ambil semua transaksi dengan status 'belum bayar' untuk admin
+        $transaksi = Transaksi::with(['produk', 'user'])
+            ->where('status', 'belum bayar') // Validasi status 'belum bayar'
+            ->get();
+    
         return view('transaksi.admin', compact('transaksi'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -38,7 +45,7 @@ class TransaksiController extends Controller
         $produks = Produk::findOrFail($produkId);
 
         if (!$produks || $produks->status != 'aktif') {
-            return redirect()->route('transaksi.create')->with('error', 'Produk tidak tersedia untuk dibeli.');
+            return redirect()->route('master.data.transaksi.create')->with('error', 'Produk tidak tersedia untuk dibeli.');
         }
 
         return view('transaksi.create', compact('produks'));
@@ -86,27 +93,53 @@ class TransaksiController extends Controller
      */
     public function update(Request $request, string $idTransaksi)
     {
+
+        // Menemukan transaksi beserta produk yang terkait
         $transaksi = Transaksi::with('produk')->findOrFail($idTransaksi);
 
         if (!$transaksi->produk) {
             return redirect()->route('dashboard')->with('error', 'Data produk tidak ditemukan.');
         }
 
-        $transaksi->produk->increment('stok', $transaksi->jumlah);
+        // Mengubah status transaksi menjadi 'bayar'
+        $transaksi->update(['status' => 'bayar']);
 
-        $transaksi->delete();
+        // Menambahkan data pembayaran ke tabel pembayaran
+        Pembayaran::create([
+            'transaksi_id' => $transaksi->id_transaksi,
+            'total_pembayaran' => $transaksi->total_harga,
+            'waktu_pembayaran' => now(), // Waktu pembayaran adalah waktu saat ini
+        ]);
 
-        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dibatalkan dan stok produk dikembalikan.');
+        // Redirect kembali dengan pesan sukses
+        return redirect()->route('master.data.transaksi.index')->with('success', 'Transaksi berhasil dibayar dan data pembayaran telah dicatat.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $idTransaksi)
     {
-        $transaksi = Transaksi::findOrFail($id);
-        $transaksi->delete();
+        // Menemukan transaksi beserta produk yang terkait
+        $transaksi = Transaksi::with('produk')->findOrFail($idTransaksi);
 
-        return redirect()->route('transaksi.index')->with('success', 'Transaksi berhasil dihapus.');
+        // Mengecek jika produk ada atau tidak
+        if (!$transaksi->produk) {
+            return redirect()->route('dashboard')->with('error', 'Data produk tidak ditemukan.');
+        }
+
+        // Mendapatkan produk terkait dengan transaksi
+        $produk = Produk::findOrFail($transaksi->produk_id);
+
+        // Mengembalikan stok produk yang dibatalkan
+        $produk->increment('stok', $transaksi->jumlah);
+
+        // Mengubah status transaksi menjadi 'batal'
+        $transaksi->update(['status' => 'batal']);
+
+        // Mengarahkan kembali dengan pesan sukses
+        return redirect()->route('master.data.transaksi.index')->with('success', 'Transaksi berhasil dibatalkan.');
     }
+
+
 }

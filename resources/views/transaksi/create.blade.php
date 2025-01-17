@@ -39,7 +39,6 @@
 
                 <!-- Gambar Produk yang Dipilih -->
                 <div class="mb-3">
-                    <label for="gambar_produk" class="form-label">Gambar Produk</label>
                     <img id="gambar_produk" src="{{ asset('storage/' . $produks->gambar) }}" alt="Gambar Produk" class="img-fluid" style="max-width: 200px;" readonly>
                 </div>
 
