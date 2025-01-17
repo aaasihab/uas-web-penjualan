@@ -45,8 +45,8 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function peminjaman(): HasMany
+    public function transaksi()
     {
-        return $this->hasMany(Peminjaman::class, 'user_id', 'id');
+        return $this->hasMany(Transaksi::class, 'pelanggan_id', 'id');
     }
 }

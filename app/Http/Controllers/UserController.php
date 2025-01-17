@@ -27,7 +27,7 @@ class UserController extends Controller
                 'name' => 'required|string|max:50',
                 'email' => 'required|string|email|max:255|unique:users,email',
                 'password' => 'required|string|min:6',
-                'role' => 'required|string|in:super_admin,admin,pengguna',
+                'role' => 'required|string|in:super_admin,admin,pelanggan',
             ],
             [
                 // Pesan kustom untuk validasi
@@ -89,7 +89,7 @@ class UserController extends Controller
             'name' => 'required|string|max:50',
             'email' => 'required|string|email|max:50|unique:users,email,' . $id,
             'password' => 'nullable|string|min:6',
-            'role' => 'required|string|in:super_admin,admin,pengguna',
+            'role' => 'required|string|in:super_admin,admin,pelanggan',
         ], [
             // Pesan kustom untuk field 'name'
             'name.required' => 'Nama wajib diisi.',

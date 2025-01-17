@@ -3,7 +3,7 @@
         aria-labelledby="sidebarMenuLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="sidebarMenuLabel">
-                Perpustakaan Online
+                Toko Kelontong Barokah Abadi
             </h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"
                 aria-label="Close"></button>
@@ -30,28 +30,28 @@
             <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2"
-                        href="{{ route('master.data.peminjaman.index') }}">
-                        <i class="bi bi-bookmark"></i>
-                        List Peminjaman
+                        href="{{ route('master.data.transaksi.index') }}">
+                        <i class="bi bi-cart-check"></i>
+                        Keranjang Belanja
                     </a>
                 </li>
 
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2"
-                        href="{{ route('master.data.kategori.index') }}">
-                        <i class="bi bi-file-earmark-text"></i>
+                        href="{{ route('master.data.kategoriProduk.index') }}">
+                        <i class="bi bi-list-ul"></i>
                         Kategori
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="{{ route('master.data.buku.index') }}">
-                        <i class="bi bi-book"></i>
-                        Buku
+                    <a class="nav-link d-flex align-items-center gap-2" href="{{ route('master.data.produk.index') }}">
+                        <i class="bi bi-box"></i>
+                        Produk
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="{{ route('master.data.user.index') }}">
-                        <i class="bi bi-people"></i>
+                        <i class="bi bi-person-circle"></i>
                         User
                     </a>
                 </li>
@@ -62,7 +62,7 @@
             <ul class="nav flex-column mb-auto">
                 <li class="nav-item">
                     <a class="nav-link d-flex align-items-center gap-2" href="{{ route('profile.index') }}">
-                        <i class="bi bi-gear-wide-connected"></i>
+                        <i class="bi bi-gear"></i>
                         Settings
                     </a>
                 </li>
@@ -72,7 +72,7 @@
                         @csrf
                         <button type="submit"
                             class="nav-link d-flex align-items-center gap-2 btn btn-link text-decoration-none">
-                            <i class="bi bi-door-closed"></i>
+                            <i class="bi bi-door-open"></i>
                             Sign out
                         </button>
                     </form>

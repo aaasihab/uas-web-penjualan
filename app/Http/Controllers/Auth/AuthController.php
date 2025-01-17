@@ -19,7 +19,7 @@ class AuthController extends Controller
                 'name' => 'required|string|max:50',
                 'email' => 'required|string|email|max:255|unique:users,email',
                 'password' => 'required|string|min:6',
-                'role' => 'required|string|pengguna',
+                'role' => 'required|string|pelanggan',
             ],
             [
                 // Pesan kustom untuk validasi
@@ -96,7 +96,7 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password'],
-            'role' => 'pengguna', // Role diatur otomatis di backend
+            'role' => 'pelanggan', // Role diatur otomatis di backend
         ]);
 
         // Redirect ke halaman login dengan pesan sukses

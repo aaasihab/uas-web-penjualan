@@ -49,9 +49,8 @@
                     <label for="role" class="form-label">Role</label>
                     <select name="role" id="role" class="form-control">
                         <option value="" disabled selected>Pilih role</option>
-                        <option value="super_admin">Super Admin</option>
                         <option value="admin">Admin</option>
-                        <option value="pengguna">Pengguna</option>
+                        <option value="pelanggan">pelanggan</option>
                     </select>
                 </div>
 

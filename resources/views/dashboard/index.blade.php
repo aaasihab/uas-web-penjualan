@@ -10,7 +10,6 @@
         .card-footer {
             height: 47px;
             margin-top: auto;
-            /* Memastikan tombol berada di bawah */
         }
     </style>
 @endsection
@@ -21,53 +20,35 @@
             <h1 class="h2">Dashboard</h1>
         </div>
 
-        <!-- Daftar Buku -->
+        <!-- Daftar Produk -->
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            @foreach ($bukus as $buku)
+            @foreach ($produks as $produk)
                 <div class="col">
                     <div class="card shadow">
-                        <!-- Gambar Buku -->
-                        <img src="{{ asset('storage/' . $buku->cover) }}" class="card-img-top" height="600"
-                            alt="Thumbnail Buku" />
+                        <!-- Gambar Produk -->
+                        <img src="{{ asset('storage/' . $produk->gambar) }}" class="card-img-top" height="300"
+                            alt="Thumbnail Produk" />
                         <div class="card-body">
-                            <!-- Judul Buku -->
-                            <h5 class="card-title mb-2">{{ $buku->judul }}</h5>
+                            <!-- Nama Produk -->
+                            <h5 class="card-title mb-2">{{ $produk->nama }}</h5>
 
-                            <!-- Deskripsi Buku -->
-                            <p class="card-text">{{ $buku->deskripsi }}</p>
+                            <!-- Deskripsi Produk -->
+                            <p class="card-text">{{ $produk->deskripsi }}</p>
 
-                            <!-- Penulis dan Penerbit -->
-                            <p class="card-text"><strong>Penulis:</strong> {{ $buku->penulis }}</p>
-                            <p class="card-text"><strong>Penerbit:</strong> {{ $buku->penerbit }}</p>
+                            <!-- Harga dan Stok Produk -->
+                            <p class="card-text"><strong>Harga:</strong> Rp{{ number_format($produk->harga, 0, ',', '.') }}
+                            </p>
+                            <p class="card-text"><strong>Stok:</strong> {{ $produk->stok }}</p>
                         </div>
 
-                        <!-- Tombol Pinjam dan Status -->
+                        <!-- Tombol Beli dan Status -->
                         @auth
-                            @if (auth()->user()->role === 'pengguna')
+                            @if (auth()->user()->role === 'pelanggan')
                                 <div class="card-footer">
                                     <div class="d-flex justify-content-between align-items-center">
-                                        @if ($buku->status === 'aktif')
-                                            <a href="{{ route('master.data.peminjaman.create', ['buku' => $buku->id_buku]) }}"
-                                                class="btn btn-sm btn-outline-secondary px-3">Pinjam</a>
-                                            <span class="text-success fw-semibold">Tersedia</span>
-                                        @else
-                                            <span class="text-danger fw-semibold ms-auto">Tidak Tersedia</span>
-                                        @endif
-                                    </div>
-                                </div>
-                            @else
-                                <div class="card-footer">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        @if ($buku->status === 'aktif')
-                                            <span class="text-danger fw-semibold">Belum ada peminjam</span>
-                                        @else
-                                            @if ($buku->peminjaman && $buku->peminjaman->user)
-                                                <span class="text-success fw-semibold">
-                                                    Dipinjam oleh {{ $buku->peminjaman->user->name }}
-                                                </span>
-                                            @else
-                                                <span class="text-warning fw-semibold">Buku sedang dinonaktifkan</span>
-                                            @endif
+                                        @if ($produk->status === 'aktif')
+                                            <a href="{{ route('master.data.transaksi.create', ['produk' => $produk->id_produk]) }}"
+                                                class="btn btn-sm btn-outline-secondary px-3">Beli</a>
                                         @endif
                                     </div>
                                 </div>
@@ -111,7 +92,6 @@
                 title: "Berhasil!",
                 text: "{{ session('success') }}",
                 icon: "success",
-                confirmButtonText: "OK",
             });
         @endif
     </script>

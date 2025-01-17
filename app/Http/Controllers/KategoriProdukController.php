@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kategori;
+use App\Models\KategoriProduk;
 use Illuminate\Http\Request;
 
-class KategoriController extends Controller
+class KategoriProdukController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $kategoris = Kategori::all();
+        $kategoris = KategoriProduk::all();
         // Mengirim data kategori ke view index
-        return view('kategori.index', compact('kategoris'));
+        return view('kategoriProduk.index', compact('kategoris'));
     }
 
     /**
@@ -22,7 +22,7 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        return view('kategori.create');
+        return view('kategoriProduk.create');
     }
 
     /**
@@ -54,10 +54,10 @@ class KategoriController extends Controller
         );
 
         // Menyimpan data kategori baru ke database
-        Kategori::create($validated);
+        KategoriProduk::create($validated);
 
         // Redirect ke halaman index dengan pesan sukses
-        return redirect()->route('master.data.kategori.index')->with('success', 'Kategori berhasil ditambahkan');
+        return redirect()->route('master.data.kategoriProduk.index')->with('success', 'Kategori berhasil ditambahkan');
     }
 
 
@@ -74,14 +74,11 @@ class KategoriController extends Controller
      */
     public function edit(string $id)
     {
-        $kategoris = Kategori::findOrFail($id);
+        $kategori = KategoriProduk::findOrFail($id);
         // Mengembalikan view form untuk mengedit kategori
-        return view('kategori.edit', compact('kategoris'));
+        return view('kategoriProduk.edit', compact('kategori'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     /**
      * Update the specified resource in storage.
      */
@@ -110,13 +107,13 @@ class KategoriController extends Controller
         ]);
 
         // Cari kategori berdasarkan ID
-        $kategori = Kategori::findOrFail($id);
+        $kategori = KategoriProduk::findOrFail($id);
 
         // Update kategori dengan data baru
         $kategori->update($validated);
 
         // Redirect ke halaman index dengan pesan sukses
-        return redirect()->route('master.data.kategori.index')->with('success', 'Kategori berhasil diperbarui');
+        return redirect()->route('master.data.kategoriProduk.index')->with('success', 'Kategori berhasil diperbarui');
     }
 
 
@@ -127,12 +124,12 @@ class KategoriController extends Controller
     public function destroy(string $id)
     {
         // Cari kategori berdasarkan ID
-        $kategori = Kategori::findOrFail($id);
+        $kategori = KategoriProduk::findOrFail($id);
 
         // Cek apakah kategori memiliki relasi dengan buku
-        if ($kategori->buku()->count() > 0) {
+        if ($kategori->produk()->count() > 0) {
             // Jika ada relasi dengan buku, kembalikan pesan error
-            return redirect()->route('master.data.kategori.index')
+            return redirect()->route('master.data.kategoriProduk.index')
                 ->with('error', 'Kategori ini tidak bisa dihapus karena memiliki relasi dengan buku');
         }
 
@@ -140,7 +137,7 @@ class KategoriController extends Controller
         $kategori->delete();
 
         // Redirect ke halaman index dengan pesan sukses
-        return redirect()->route('master.data.kategori.index')
+        return redirect()->route('master.data.kategoriProduk.index')
             ->with('success', 'Kategori berhasil dihapus');
     }
 }
