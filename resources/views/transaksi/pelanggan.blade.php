@@ -54,16 +54,9 @@
                                         <span class="badge bg-danger">{{ $item->status }}</span>
                                     </td>
                                     <td>
-                                        <form id="bayar-form-{{ $item->id_transaksi }}"
-                                            action="{{ route('master.data.transaksi.update', $item->id_transaksi) }}"
-                                            method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="button" class="btn btn-sm btn-outline-secondary"
-                                                onclick="confirmBayar({{ $item->id_transaksi }})">
-                                                Bayar
-                                            </button>
-                                        </form>
+
+                                        <a href="{{ route('master.data.pembayaran.create', $item->id_transaksi) }}"
+                                            class="btn btn-sm btn-outline-secondary px-3">Bayar</a>
 
                                         <!-- Tombol Hapus -->
                                         <form id="delete-form-{{ $item->id_transaksi }}"

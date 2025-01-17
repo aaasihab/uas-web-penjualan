@@ -1,15 +1,76 @@
 @extends('layouts.main')
 
-{{-- untuk styles khusus halaman tertentu --}}
 @section('this-page-style')
     <style>
         .card-body {
-            min-height: 320px;
+            min-height: 150px;
+            padding: 10px;
         }
 
         .card-footer {
-            height: 47px;
+            height: 40px;
             margin-top: auto;
+        }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #fff;
+            padding: 5px 10px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        .harga-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ff6f00;
+            color: white;
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        .card-img-top {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .favorite-icon {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            color: #ccc;
+            cursor: pointer;
+        }
+
+        .favorite-icon:hover {
+            color: red;
+        }
+
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .kategori-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            background-color: #007bff;
+            /* Warna sesuai selera */
+            border-radius: 20px;
+            /* Tinggi tetapi tidak bulat */
         }
     </style>
 @endsection
@@ -20,37 +81,27 @@
             <h1 class="h2">Dashboard</h1>
         </div>
 
-        <!-- Daftar Produk -->
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
             @foreach ($produks as $produk)
                 <div class="col">
-                    <div class="card shadow">
-                        <!-- Gambar Produk -->
-                        <img src="{{ asset('storage/' . $produk->gambar) }}" class="card-img-top" height="300"
-                            alt="Thumbnail Produk" />
-                        <div class="card-body">
-                            <!-- Nama Produk -->
-                            <h5 class="card-title mb-2">{{ $produk->nama }}</h5>
-
-                            <!-- Deskripsi Produk -->
-                            <p class="card-text">{{ $produk->deskripsi }}</p>
-
-                            <!-- Harga dan Stok Produk -->
-                            <p class="card-text"><strong>Harga:</strong> Rp{{ number_format($produk->harga, 0, ',', '.') }}
+                    <div class="card shadow position-relative">
+                        <span class="harga-badge">Rp{{ number_format($produk->harga, 0, ',', '.') }}</span>
+                        <img src="{{ asset('storage/' . $produk->gambar) }}" class="card-img-top" alt="Produk" />
+                        <div class="card-body text-center">
+                            <h5 class="card-title font-weight-bold">{{ $produk->nama }}</h5>
+                            <p class="card-text">
+                                <span class="kategori-badge">{{ $produk->kategoriProduk->nama }}</span>
                             </p>
-                            <p class="card-text"><strong>Stok:</strong> {{ $produk->stok }}</p>
+                            
+                            <p class="card-text"><strong>Stok Tersisa:</strong> {{ $produk->stok }}</p>
                         </div>
-
-                        <!-- Tombol Beli dan Status -->
                         @auth
                             @if (auth()->user()->role === 'pelanggan')
-                                <div class="card-footer">
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        @if ($produk->status === 'aktif')
-                                            <a href="{{ route('master.data.transaksi.create', ['produk' => $produk->id_produk]) }}"
-                                                class="btn btn-sm btn-outline-secondary px-3">Beli</a>
-                                        @endif
-                                    </div>
+                                <div class="card-footer text-center py-1">
+                                    @if ($produk->status === 'aktif')
+                                        <a href="{{ route('master.data.transaksi.create', ['produk' => $produk->id_produk]) }}"
+                                            class="btn btn-sm btn-outline-secondary px-5">Beli</a>
+                                    @endif
                                 </div>
                             @endif
                         @endauth
@@ -60,6 +111,8 @@
         </div>
     </main>
 @endsection
+
+
 
 {{-- untuk scripts khusus halaman tertentu --}}
 @section('this-page-scripts')

@@ -47,6 +47,12 @@ Route::middleware(['auth'])->prefix('master-data')->name('master.data.')->group(
     Route::prefix('pembayaran')->name('pembayaran.')->group(function () {
         Route::get('/', [PembayaranController::class, 'index'])
             ->name('index');
+        Route::get('/create/{transaksi}', [PembayaranController::class, 'create'])
+            ->middleware('role:pelanggan')
+            ->name('create');
+        Route::post('/store/{transaksi}', [PembayaranController::class, 'store'])
+            ->middleware('role:pelanggan')
+            ->name('store');
     });
 
     // Route::resource('pembayaran', PembayaranController::class);
