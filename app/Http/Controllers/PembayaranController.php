@@ -19,22 +19,26 @@ class PembayaranController extends Controller
 
         // Jika pengguna adalah pelanggan
         if ($user->role === 'pelanggan') {
-            // Ambil pembayaran berdasarkan pelanggan yang sedang login
+            // Ambil pembayaran berdasarkan pelanggan yang sedang login dan urutkan berdasarkan waktu dibuat
             $pembayaran = Pembayaran::with('transaksi') // Memuat relasi transaksi
                 ->whereHas('transaksi', function ($query) use ($user) {
                     $query->where('pelanggan_id', $user->id); // Menyaring transaksi berdasarkan pelanggan_id
                 })
+                ->orderBy('created_at', 'desc') // Mengurutkan berdasarkan waktu dibuat, terbaru pertama
                 ->get();
 
             return view('pembayaran.pelanggan', compact('pembayaran'));
         }
 
-        // Jika pengguna adalah admin, ambil semua data pembayaran beserta transaksi
-        $pembayaran = Pembayaran::with('transaksi')->get();
+        // Jika pengguna adalah admin, ambil semua data pembayaran beserta transaksi dan urutkan berdasarkan waktu dibuat
+        $pembayaran = Pembayaran::with('transaksi')
+            ->orderBy('created_at', 'desc') // Mengurutkan berdasarkan waktu dibuat, terbaru pertama
+            ->get();
 
         // Tampilkan view untuk admin dengan semua data pembayaran
         return view('pembayaran.admin', compact('pembayaran'));
     }
+
 
 
     public function create($idTransaksi)

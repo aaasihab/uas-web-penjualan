@@ -2,6 +2,13 @@
 
 {{-- Untuk styles khusus halaman tertentu --}}
 @section('this-page-style')
+    <style>
+        .product-image {
+            max-width: 125px;
+            /* Ukuran gambar yang lebih kecil */
+            margin-bottom: 1rem;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -17,49 +24,68 @@
             <form action="{{ route('master.data.transaksi.store', $produks->id_produk) }}" method="POST">
                 @csrf
 
-                <!-- Nama Pelanggan -->
-                <div class="mb-3">
-                    <label for="nama_pelanggan" class="form-label">Nama Pelanggan</label>
-                    <input type="text" id="nama_pelanggan" name="nama_pelanggan" class="form-control"
-                        value="{{ auth()->user()->name }}" readonly>
-                </div>
-
-                <!-- Email -->
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" id="email" name="email" class="form-control"
-                        value="{{ auth()->user()->email }}" readonly>
-                </div>
-
-                <!-- Nama Produk yang Dipilih -->
-                <div class="mb-3">
-                    <label for="nama_produk" class="form-label">Produk yang Dipilih</label>
-                    <input type="text" id="nama_produk" class="form-control" value="{{ $produks->nama }}" readonly>
-                </div>
-
-                <!-- Gambar Produk yang Dipilih -->
-                <div class="mb-3">
-                    <img id="gambar_produk" src="{{ asset('storage/' . $produks->gambar) }}" alt="Gambar Produk" class="img-fluid" style="max-width: 200px;" readonly>
-                </div>
-
-                <!-- Jumlah -->
-                <div class="mb-3">
-                    <label for="jumlah" class="form-label">Jumlah</label>
-                    <input type="number" id="jumlah" name="jumlah"
-                        class="form-control @error('jumlah') is-invalid @enderror" value="{{ old('jumlah') }}" required>
-                    @error('jumlah')
-                        <div class="invalid-feedback">
-                            {{ $message }}
+                <div class="row">
+                    <!-- Kolom Kiri -->
+                    <div class="col-md-6">
+                        <!-- Nama Produk yang Dipilih -->
+                        <div class="mb-3">
+                            <label for="nama_produk" class="form-label">Produk yang Dipilih</label>
+                            <input type="text" id="nama_produk" class="form-control" value="{{ $produks->nama }}"
+                                readonly disabled>
                         </div>
-                    @enderror
-                </div>
 
-                <!-- Submit Button -->
-                <div class="mb-3">
-                    <button type="submit" class="btn btn-primary">
-                        Masukkan Keranjang
-                    </button>
-                    <a href="{{ route('dashboard') }}" class="btn btn-secondary">Batal</a>
+                        <!-- Gambar Produk yang Dipilih -->
+                        <div class="mb-0">
+                            <img id="gambar_produk" src="{{ asset('storage/' . $produks->gambar) }}" alt="Gambar Produk"
+                                class="img-fluid product-image">
+                        </div>
+
+                        <!-- Stok Produk -->
+                        <div class="mb-3">
+                            <label for="stok" class="form-label">Stok Produk</label>
+                            <input type="number" id="stok" class="form-control" value="{{ $produks->stok }}" readonly
+                                disabled>
+                        </div>
+
+                    </div>
+
+                    <!-- Kolom Kanan -->
+                    <div class="col-md-6">
+                        <!-- Nama Pelanggan -->
+                        <div class="mb-3">
+                            <label for="nama_pelanggan" class="form-label">Nama Pelanggan</label>
+                            <input type="text" id="nama_pelanggan" name="nama_pelanggan" class="form-control"
+                                value="{{ auth()->user()->name }}" readonly disabled>
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" name="email" class="form-control"
+                                value="{{ auth()->user()->email }}" readonly disabled>
+                        </div>
+
+                        <!-- Jumlah -->
+                        <div class="mb-3">
+                            <label for="jumlah" class="form-label">Jumlah Yang Akan Dibeli</label>
+                            <input type="number" id="jumlah" name="jumlah"
+                                class="form-control  @error('jumlah') is-invalid @enderror" value="{{ old('jumlah') }}"
+                                required min="1" max="{{ $produks->stok }}">
+                            @error('jumlah')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary">
+                                Masukkan Keranjang
+                            </button>
+                            <a href="{{ route('dashboard') }}" class="btn btn-secondary">Batal</a>
+                        </div>
+                    </div>
                 </div>
             </form>
         </div>
@@ -89,16 +115,5 @@
                 confirmButtonText: "OK",
             });
         @endif
-
-        // JavaScript untuk memperbarui nama dan gambar produk yang dipilih
-        document.getElementById('produk_id').addEventListener('change', function() {
-            var selectedOption = this.options[this.selectedIndex];
-            var namaProduk = selectedOption.getAttribute('data-nama');
-            var gambarProduk = selectedOption.getAttribute('data-gambar');
-
-            // Update input untuk nama produk dan gambar produk
-            document.getElementById('nama_produk').value = namaProduk;
-            document.getElementById('gambar_produk').src = gambarProduk;
-        });
     </script>
 @endsection

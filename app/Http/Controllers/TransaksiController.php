@@ -19,25 +19,26 @@ class TransaksiController extends Controller
         $user = Auth::user();
 
         if ($user->role === 'pelanggan') {
-            // Ambil transaksi pelanggan dan urutkan 'belum bayar' lebih dulu
+            // Ambil transaksi pelanggan dan urutkan 'belum bayar' lebih dulu, lalu berdasarkan perubahan data terbaru
             $transaksi = Transaksi::with('produk')
                 ->where('pelanggan_id', $user->id)
                 ->whereIn('status', ['belum bayar', 'batal'])
                 ->orderByRaw("FIELD(status, 'belum bayar', 'batal')")
+                ->orderBy('updated_at', 'desc')  // Urutkan berdasarkan perubahan data terbaru (updated_at)
                 ->get();
 
             return view('transaksi.pelanggan', compact('transaksi'));
         }
 
-        // Ambil semua transaksi untuk admin dan urutkan 'belum bayar' lebih dulu
+        // Ambil semua transaksi untuk admin dan urutkan 'belum bayar' lebih dulu, lalu berdasarkan perubahan data terbaru
         $transaksi = Transaksi::with(['produk', 'user'])
             ->whereIn('status', ['belum bayar', 'batal'])
             ->orderByRaw("FIELD(status, 'belum bayar', 'batal')")
+            ->orderBy('updated_at', 'desc')  // Urutkan berdasarkan perubahan data terbaru (updated_at)
             ->get();
 
         return view('transaksi.admin', compact('transaksi'));
     }
-
 
 
     /**
@@ -48,7 +49,7 @@ class TransaksiController extends Controller
         $produks = Produk::findOrFail($produkId);
 
         if (!$produks || $produks->status != 'aktif') {
-            return redirect()->route('dashboard')->with('error', 'Produk tidak tersedia untuk dipinjam.');
+            return redirect()->route('dashboard')->with('error', 'Produk tidak tersedia.');
         }
 
         return view('transaksi.create', compact('produks'));
@@ -59,21 +60,27 @@ class TransaksiController extends Controller
      */
     public function store(Request $request, string $produkId)
     {
+        $produk = Produk::findOrFail($produkId);
+
         $validated = $request->validate([
-            'jumlah' => 'required|integer|min:1',
+            'jumlah' => [
+                'required',
+                'integer',
+                'min:1',
+                function ($attribute, $value, $fail) use ($produk) {
+                    if ($value > $produk->stok) {
+                        $fail("Jumlah produk yang diminta tidak mencukupi. Stok tersisa hanya {$produk->stok} unit.");
+                    }
+                },
+            ],
         ], [
             'jumlah.required' => 'Jumlah produk wajib diisi.',
             'jumlah.integer' => 'Jumlah harus berupa angka.',
             'jumlah.min' => 'Jumlah minimal 1.',
         ]);
 
-        $produk = Produk::findOrFail($produkId);
-
-        if (!$produk || $produk->status != 'aktif') {
-            return redirect()->route('dashboard')->with('error', 'Produk tidak tersedia untuk dipinjam.');
-        }
-        if ($produk->stok < $validated['jumlah']) {
-            return redirect()->route('dashboard')->with('error', 'Stok produk tidak mencukupi.');
+        if ($produk->status != 'aktif') {
+            return redirect()->route('dashboard')->withErrors(['stok' => 'Produk tidak tersedia untuk dipinjam.']);
         }
 
         $totalHarga = $produk->harga * $validated['jumlah'];
@@ -94,37 +101,38 @@ class TransaksiController extends Controller
         return redirect()->route('dashboard')->with('success', 'Berhasil dimasukkan ke keranjang!');
     }
 
+
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $idTransaksi)
-    {
+    // public function update(Request $request, string $idTransaksi)
+    // {
 
-        // Menemukan transaksi beserta produk yang terkait
-        $transaksi = Transaksi::with('produk')->findOrFail($idTransaksi);
+    //     // Menemukan transaksi beserta produk yang terkait
+    //     $transaksi = Transaksi::with('produk')->findOrFail($idTransaksi);
 
-        if (!$transaksi->produk) {
-            return redirect()->route('dashboard')->with('error', 'Data produk tidak ditemukan.');
-        }
+    //     if (!$transaksi->produk) {
+    //         return redirect()->route('dashboard')->with('error', 'Data produk tidak ditemukan.');
+    //     }
 
-        // Mengubah status transaksi menjadi 'bayar'
-        $transaksi->update(['status' => 'bayar']);
+    //     // Mengubah status transaksi menjadi 'bayar'
+    //     $transaksi->update(['status' => 'bayar']);
 
-        // Menambahkan data pembayaran ke tabel pembayaran
-        Pembayaran::create([
-            'transaksi_id' => $transaksi->id_transaksi,
-            'total_pembayaran' => $transaksi->total_harga,
-            'waktu_pembayaran' => now(), // Waktu pembayaran adalah waktu saat ini
-        ]);
+    //     // Menambahkan data pembayaran ke tabel pembayaran
+    //     Pembayaran::create([
+    //         'transaksi_id' => $transaksi->id_transaksi,
+    //         'total_pembayaran' => $transaksi->total_harga,
+    //         'waktu_pembayaran' => now(), // Waktu pembayaran adalah waktu saat ini
+    //     ]);
 
-        // Redirect kembali dengan pesan sukses
-        return redirect()->route('master.data.transaksi.index')->with('success', 'Transaksi berhasil dibayar dan data pembayaran telah dicatat.');
-    }
+    //     // Redirect kembali dengan pesan sukses
+    //     return redirect()->route('master.data.transaksi.index')->with('success', 'Transaksi berhasil dibayar dan data pembayaran telah dicatat.');
+    // }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $idTransaksi)
+    public function cancel(string $idTransaksi)
     {
         // Menemukan transaksi beserta produk yang terkait
         $transaksi = Transaksi::with('produk')->findOrFail($idTransaksi);

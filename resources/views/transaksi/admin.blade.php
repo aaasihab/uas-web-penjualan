@@ -21,7 +21,8 @@
                             <th>Jumlah</th>
                             <th>Total Harga</th>
                             <th>Tanggal Transaksi</th>
-                            <th>Status</th> <!-- Tambahkan kolom Status -->
+                            <th>Status</th>
+                            <th>Batal</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -31,13 +32,28 @@
                                 <td>{{ $item->user->name }}</td>
                                 <td>{{ $item->produk->nama }}</td>
                                 <td>{{ $item->jumlah }}</td>
-                                <td>Rp{{ number_format($item->total_harga, 0, ',', '.') }}</td>
+                                <td>Rp {{ number_format($item->total_harga, 0, ',', '.') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item->tanggal_transaksi)->format('d-m-Y') }}</td>
                                 <td>
                                     @if ($item->status == 'batal')
                                         <span class="badge bg-warning">Dibatalkan</span> <!-- Menampilkan status -->
                                     @else
                                         <span class="badge bg-danger">Belum Bayar</span> <!-- Menampilkan status -->
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($item->status == 'belum bayar')
+                                        <!-- Tombol Batal -->
+                                        <form id="cancel-form-{{ $item->id_transaksi }}"
+                                            action="{{ route('master.data.transaksi.cancel', $item->id_transaksi) }}"
+                                            method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('PUT')
+                                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                                onclick="confirmCancel({{ $item->id_transaksi }})">
+                                                Batal
+                                            </button>
+                                        </form>
                                     @endif
                                 </td>
                             </tr>
@@ -52,6 +68,24 @@
 
 @section('this-page-scripts')
     <script>
+        function confirmCancel(id) {
+            Swal.fire({
+                title: "Apakah Anda yakin?",
+                text: "Apakah Anda yakin ingin membatalkan pesanan ini secara paksa?",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Ya, Batalkan!",
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Submit form untuk memperbarui transaksi
+                    document.getElementById(`cancel-form-${id}`).submit();
+                }
+            });
+        }
+
         // Tampilkan SweetAlert untuk pesan sukses
         @if (session('success'))
             Swal.fire({

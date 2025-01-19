@@ -39,10 +39,8 @@ Route::middleware(['auth'])->prefix('master-data')->name('master.data.')->group(
         Route::put('/{idtransaksi}', [TransaksiController::class, 'update'])
             ->middleware('role:pelanggan')
             ->name('update');
-
-        Route::delete('/transaksi/{idTransaksi}', [TransaksiController::class, 'destroy'])
-            ->middleware('role:pelanggan')
-            ->name('destroy');
+        Route::put('/transaksi/{idTransaksi}', [TransaksiController::class, 'cancel'])
+            ->name('cancel');
     });
 
     Route::prefix('pembayaran')->name('pembayaran.')->group(function () {

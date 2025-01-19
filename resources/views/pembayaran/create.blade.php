@@ -28,20 +28,20 @@
                         <div class="mb-3">
                             <label for="nama_produk" class="form-label">Nama Produk</label>
                             <input type="text" id="nama_produk" class="form-control"
-                                value="{{ $transaksi->produk->nama }}" readonly>
+                                value="{{ $transaksi->produk->nama }}" readonly disabled>
                         </div>
 
                         <!-- Gambar Produk yang Dipilih -->
                         <div class="mb-0">
                             <img id="gambar_produk" src="{{ asset('storage/' . $transaksi->produk->gambar) }}"
-                                alt="Gambar Produk" class="img-fluid product-image" readonly>
+                                alt="Gambar Produk" class="img-fluid product-image" readonly disabled>
                         </div>
 
                         <!-- Harga Produk -->
                         <div class="mb-3">
                             <label for="harga_produk" class="form-label">Harga Produk</label>
                             <input type="text" id="harga_produk" class="form-control"
-                                value="Rp{{ number_format($transaksi->produk->harga, 0, ',', '.') }}" readonly>
+                                value="Rp{{ number_format($transaksi->produk->harga, 0, ',', '.') }}" readonly disabled>
                         </div>
                     </div>
 
@@ -50,15 +50,15 @@
                         <!-- Jumlah Produk -->
                         <div class="mb-3">
                             <label for="jumlah" class="form-label">Jumlah Produk</label>
-                            <input type="number" id="jumlah" class="form-control" value="{{ $transaksi->jumlah }}"
-                                readonly>
+                            <input type="number" id="jumlah" class="form-control"
+                                value="{{ $transaksi->jumlah }}" readonly disabled>
                         </div>
 
                         <!-- Total Harga -->
                         <div class="mb-3">
                             <label for="total_harga" class="form-label">Total Harga</label>
                             <input type="text" id="total_harga" class="form-control"
-                                value="Rp{{ number_format($transaksi->total_harga, 0, ',', '.') }}" readonly>
+                                value="Rp{{ number_format($transaksi->total_harga, 0, ',', '.') }}" readonly disabled>
                         </div>
 
                         <!-- Jumlah Pembayaran -->

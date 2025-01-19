@@ -47,7 +47,7 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $item->produk->nama }}</td>
                                 <td>{{ $item->jumlah }}</td>
-                                <td>Rp{{ number_format($item->total_harga, 0, ',', '.') }}</td>
+                                <td>Rp {{ number_format($item->total_harga, 0, ',', '.') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item->tanggal_transaksi)->format('d-m-Y') }}</td>
                                 <td>
                                     @if ($item->status == 'batal')
@@ -61,14 +61,14 @@
                                         <a href="{{ route('master.data.pembayaran.create', $item->id_transaksi) }}"
                                             class="btn btn-sm btn-outline-secondary">Bayar</a>
 
-                                        <!-- Tombol Hapus -->
-                                        <form id="delete-form-{{ $item->id_transaksi }}"
-                                            action="{{ route('master.data.transaksi.destroy', $item->id_transaksi) }}"
+                                        <!-- Tombol Batal -->
+                                        <form id="cancel-form-{{ $item->id_transaksi }}"
+                                            action="{{ route('master.data.transaksi.cancel', $item->id_transaksi) }}"
                                             method="POST" style="display:inline;">
                                             @csrf
-                                            @method('DELETE')
+                                            @method('PUT')
                                             <button type="button" class="btn btn-sm btn-outline-danger"
-                                                onclick="confirmDelete({{ $item->id_transaksi }})">
+                                                onclick="confirmCancel({{ $item->id_transaksi }})">
                                                 Batal
                                             </button>
                                         </form>
@@ -103,7 +103,7 @@
             });
         }
 
-        function confirmDelete(id) {
+        function confirmCancel(id) {
             Swal.fire({
                 title: "Apakah Anda yakin?",
                 text: "Apakah Anda yakin ingin membatalkan pesanan ini?",
@@ -116,7 +116,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     // Submit form untuk memperbarui transaksi
-                    document.getElementById(`delete-form-${id}`).submit();
+                    document.getElementById(`cancel-form-${id}`).submit();
                 }
             });
         }
