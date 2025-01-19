@@ -18,15 +18,26 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Aksi</th>
+                        <th>No</th>
                         <th>Kategori</th>
                         <th>Keterangan</th>
                         <th>Status</th>
+                        <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($kategoris as $kategori)
                         <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $kategori->nama }}</td>
+                            <td>{{ $kategori->keterangan ?? 'Tidak ada keterangan' }}</td>
+                            <td>
+                                @if ($kategori->status === 'aktif')
+                                    <span class="badge bg-success">Aktif</span>
+                                @else
+                                    <span class="badge bg-danger">Non-Aktif</span>
+                                @endif
+                            </td>
                             <td>
                                 <!-- Tombol Edit dan Hapus -->
                                 <div class="d-flex">
@@ -45,15 +56,6 @@
                                         </button>
                                     </form>
                                 </div>
-                            </td>
-                            <td>{{ $kategori->nama }}</td>
-                            <td>{{ $kategori->keterangan ?? 'Tidak ada keterangan' }}</td>
-                            <td>
-                                @if ($kategori->status === 'aktif')
-                                    <span class="badge bg-success">Aktif</span>
-                                @else
-                                    <span class="badge bg-danger">Non-Aktif</span>
-                                @endif
                             </td>
                         </tr>
                     @endforeach

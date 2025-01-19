@@ -32,8 +32,8 @@
                             <i class="bi bi-cart4"></i>
                             Daftar Transaksi
                         @else
-                            <i class="bi bi-cart-x-fill"></i>
-                            Keranjang Belanja
+                            <i class="bi bi-cart4"></i>
+                            Riwayat Transaksi
                         @endif
 
                     </a>

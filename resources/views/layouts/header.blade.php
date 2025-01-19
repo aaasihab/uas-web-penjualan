@@ -1,4 +1,4 @@
-<header class="navbar sticky-top bg-success flex-md-nowrap p-0 shadow" data-bs-theme="auto">
+<header class="navbar sticky-top bg-info flex-md-nowrap p-0 shadow" data-bs-theme="auto">
     <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">Toserba Berkah Abadi</a>
 
     <ul class="navbar-nav flex-row d-md-none">

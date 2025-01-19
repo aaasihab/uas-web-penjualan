@@ -17,25 +17,28 @@ class TransaksiController extends Controller
     public function index()
     {
         $user = Auth::user();
-    
+
         if ($user->role === 'pelanggan') {
-            // Ambil transaksi yang hanya statusnya 'belum bayar' untuk pelanggan
+            // Ambil transaksi pelanggan dan urutkan 'belum bayar' lebih dulu
             $transaksi = Transaksi::with('produk')
                 ->where('pelanggan_id', $user->id)
-                ->where('status', 'belum bayar') // Validasi status 'belum bayar'
+                ->whereIn('status', ['belum bayar', 'batal'])
+                ->orderByRaw("FIELD(status, 'belum bayar', 'batal')")
                 ->get();
-    
+
             return view('transaksi.pelanggan', compact('transaksi'));
         }
-    
-        // Ambil semua transaksi dengan status 'belum bayar' untuk admin
+
+        // Ambil semua transaksi untuk admin dan urutkan 'belum bayar' lebih dulu
         $transaksi = Transaksi::with(['produk', 'user'])
-            ->where('status', 'belum bayar') // Validasi status 'belum bayar'
+            ->whereIn('status', ['belum bayar', 'batal'])
+            ->orderByRaw("FIELD(status, 'belum bayar', 'batal')")
             ->get();
-    
+
         return view('transaksi.admin', compact('transaksi'));
     }
-    
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -45,7 +48,7 @@ class TransaksiController extends Controller
         $produks = Produk::findOrFail($produkId);
 
         if (!$produks || $produks->status != 'aktif') {
-            return redirect()->route('master.data.transaksi.create')->with('error', 'Produk tidak tersedia untuk dibeli.');
+            return redirect()->route('dashboard')->with('error', 'Produk tidak tersedia untuk dipinjam.');
         }
 
         return view('transaksi.create', compact('produks'));
@@ -66,6 +69,9 @@ class TransaksiController extends Controller
 
         $produk = Produk::findOrFail($produkId);
 
+        if (!$produk || $produk->status != 'aktif') {
+            return redirect()->route('dashboard')->with('error', 'Produk tidak tersedia untuk dipinjam.');
+        }
         if ($produk->stok < $validated['jumlah']) {
             return redirect()->route('dashboard')->with('error', 'Stok produk tidak mencukupi.');
         }

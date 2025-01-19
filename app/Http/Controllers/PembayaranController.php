@@ -55,16 +55,19 @@ class PembayaranController extends Controller
      */
     public function store(Request $request, $transaksiId)
     {
-        // Validasi input pembayaran
-        $request->validate([
+        $validated = $request->validate([
             'total_pembayaran' => 'required|numeric|min:0',
+        ], [
+            'total_pembayaran.required' => 'Total pembayaran wajib diisi.',
+            'total_pembayaran.numeric' => 'Total pembayaran harus berupa angka.',
+            'total_pembayaran.min' => 'Total pembayaran tidak boleh kurang dari 0.',
         ]);
 
         // Temukan transaksi berdasarkan ID
         $transaksi = Transaksi::findOrFail($transaksiId);
 
         // Cek apakah total pembayaran kurang dari total harga transaksi
-        if ($request->total_pembayaran < $transaksi->total_harga) {
+        if ($validated['total_pembayaran'] < $transaksi->total_harga) {
             // Redirect kembali dengan pesan error
             return redirect()->route('master.data.pembayaran.create', $transaksiId)
                 ->with('error', 'Jumlah pembayaran kurang dari total harga transaksi.');
@@ -73,7 +76,7 @@ class PembayaranController extends Controller
         // Buat data pembayaran baru
         Pembayaran::create([
             'transaksi_id' => $transaksi->id_transaksi,
-            'total_pembayaran' => $request->total_pembayaran,
+            'total_pembayaran' => $validated['total_pembayaran'],
             'waktu_pembayaran' => now(),
         ]);
 
@@ -83,6 +86,7 @@ class PembayaranController extends Controller
         // Redirect dengan pesan sukses
         return redirect()->route('master.data.pembayaran.index')->with('success', 'Pembayaran berhasil disimpan.');
     }
+
 
 
     /**

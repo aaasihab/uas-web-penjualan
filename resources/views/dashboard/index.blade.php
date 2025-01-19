@@ -81,26 +81,25 @@
             <h1 class="h2">Dashboard</h1>
         </div>
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+        <div class="row row-cols-2 row-cols-md-4 g-3">
             @foreach ($produks as $produk)
                 <div class="col">
-                    <div class="card shadow position-relative">
-                        <span class="harga-badge">Rp{{ number_format($produk->harga, 0, ',', '.') }}</span>
-                        <img src="{{ asset('storage/' . $produk->gambar) }}" class="card-img-top" alt="Produk" />
-                        <div class="card-body text-center">
-                            <h5 class="card-title font-weight-bold">{{ $produk->nama }}</h5>
-                            <p class="card-text">
+                    <div class="card shadow position-relative h-100">
+                        <span class="harga-badge">Rp {{ number_format($produk->harga, 0, ',', '.') }}</span>
+                        <img src="{{ asset('storage/' . $produk->gambar) }}" class="card-img-top img-fluid" alt="Produk" />
+                        <div class="card-body d-flex flex-column text-center">
+                            <h5 class="card-title fw-bold fs-6">{{ $produk->nama }}</h5>
+                            <p class="card-text mt-2">
                                 <span class="kategori-badge">{{ $produk->kategoriProduk->nama }}</span>
                             </p>
-                            
                             <p class="card-text"><strong>Stok Tersisa:</strong> {{ $produk->stok }}</p>
                         </div>
                         @auth
                             @if (auth()->user()->role === 'pelanggan')
-                                <div class="card-footer text-center py-1">
+                                <div class="card-footer text-center h-auto">
                                     @if ($produk->status === 'aktif')
                                         <a href="{{ route('master.data.transaksi.create', ['produk' => $produk->id_produk]) }}"
-                                            class="btn btn-sm btn-outline-secondary px-5">Beli</a>
+                                            class="btn btn-sm btn-outline-success w-100 fs-6">Beli Produk</a>
                                     @endif
                                 </div>
                             @endif
@@ -109,6 +108,7 @@
                 </div>
             @endforeach
         </div>
+        
     </main>
 @endsection
 
@@ -145,6 +145,8 @@
                 title: "Berhasil!",
                 text: "{{ session('success') }}",
                 icon: "success",
+                showConfirmButton: false,
+                timer: 1000,
             });
         @endif
     </script>

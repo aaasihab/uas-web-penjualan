@@ -109,6 +109,7 @@
                 <!-- Submit Button -->
                 <div class="mb-3">
                     <button class="btn btn-primary" type="submit">Simpan</button>
+                    <a href="{{ route('master.data.produk.index') }}" class="btn btn-secondary">Batal</a>
                 </div>
             </form>
         </div>

@@ -59,6 +59,7 @@
                     <button class="btn btn-primary" type="submit">
                         Simpan
                     </button>
+                    <a href="{{ route('master.data.user.index') }}" class="btn btn-secondary">Batal</a>
                 </div>
             </form>
         </div>

@@ -6,7 +6,7 @@
 @section('content')
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex flex-wrap justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Daftar Transaksi Saat ini</h1>
+            <h1 class="h2">Daftar Riwayat Transaksi</h1>
         </div>
 
         <div class="container mt-4">
@@ -34,7 +34,11 @@
                                 <td>Rp{{ number_format($item->total_harga, 0, ',', '.') }}</td>
                                 <td>{{ \Carbon\Carbon::parse($item->tanggal_transaksi)->format('d-m-Y') }}</td>
                                 <td>
-                                    <span class="badge bg-danger">{{ $item->status }}</span> <!-- Menampilkan status -->
+                                    @if ($item->status == 'batal')
+                                        <span class="badge bg-warning">Dibatalkan</span> <!-- Menampilkan status -->
+                                    @else
+                                        <span class="badge bg-danger">Belum Bayar</span> <!-- Menampilkan status -->
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach

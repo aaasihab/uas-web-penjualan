@@ -41,6 +41,7 @@ Route::middleware(['auth'])->prefix('master-data')->name('master.data.')->group(
             ->name('update');
 
         Route::delete('/transaksi/{idTransaksi}', [TransaksiController::class, 'destroy'])
+            ->middleware('role:pelanggan')
             ->name('destroy');
     });
 

@@ -9,7 +9,7 @@
     <meta name="description" content="" />
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors" />
     <meta name="generator" content="Hugo 0.122.0" />
-    <title>Perpustakaan Online</title>
+    <title>Toserba</title>
     {{-- untuk styles --}}
     @include('layouts.styles')
     {{-- untuk styles khusus halaman tertentu --}}

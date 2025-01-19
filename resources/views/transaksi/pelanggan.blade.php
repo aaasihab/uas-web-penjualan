@@ -23,7 +23,7 @@
 @section('content')
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
         <div class="d-flex flex-wrap justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Keranjang Belanja</h1>
+            <h1 class="h2">Riwayat Transaksi Anda</h1>
         </div>
 
         <div class="container mt-4">
@@ -43,20 +43,23 @@
                     </thead>
                     <tbody>
                         @foreach ($transaksi as $item)
-                            @if ($item->status == 'belum bayar')
-                                <tr>
-                                    <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $item->produk->nama }}</td>
-                                    <td>{{ $item->jumlah }}</td>
-                                    <td>Rp{{ number_format($item->total_harga, 0, ',', '.') }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($item->tanggal_transaksi)->format('d-m-Y') }}</td>
-                                    <td>
-                                        <span class="badge bg-danger">{{ $item->status }}</span>
-                                    </td>
-                                    <td>
-
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $item->produk->nama }}</td>
+                                <td>{{ $item->jumlah }}</td>
+                                <td>Rp{{ number_format($item->total_harga, 0, ',', '.') }}</td>
+                                <td>{{ \Carbon\Carbon::parse($item->tanggal_transaksi)->format('d-m-Y') }}</td>
+                                <td>
+                                    @if ($item->status == 'batal')
+                                        <span class="badge bg-warning">Dibatalkan</span> <!-- Menampilkan status -->
+                                    @else
+                                        <span class="badge bg-danger">Belum Bayar</span> <!-- Menampilkan status -->
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($item->status == 'belum bayar')
                                         <a href="{{ route('master.data.pembayaran.create', $item->id_transaksi) }}"
-                                            class="btn btn-sm btn-outline-secondary px-3">Bayar</a>
+                                            class="btn btn-sm btn-outline-secondary">Bayar</a>
 
                                         <!-- Tombol Hapus -->
                                         <form id="delete-form-{{ $item->id_transaksi }}"
@@ -69,9 +72,9 @@
                                                 Batal
                                             </button>
                                         </form>
-                                    </td>
-                                </tr>
-                            @endif
+                                    @endif
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>

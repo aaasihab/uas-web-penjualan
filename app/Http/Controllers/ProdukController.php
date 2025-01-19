@@ -42,7 +42,10 @@ class ProdukController extends Controller
             'gambar.required' => 'Gambar produk wajib diunggah.',
             'gambar.image' => 'File harus berupa gambar.',
             'kategori_produk_id.required' => 'Kategori produk wajib dipilih.',
+            'status.required' => 'Status produk wajib dipilih.',
+            'status.in' => 'Status produk harus bernilai "aktif" atau "nonaktif".',
         ]);
+
 
         $validated['gambar'] = $request->file('gambar')->store('gambar_produk', 'public');
 
