@@ -3,8 +3,11 @@
 @section('this-page-style')
     <style>
         .card-body {
-            min-height: 150px;
+            min-height: 100px;
             padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .card-footer {
@@ -12,87 +15,103 @@
             margin-top: auto;
         }
 
-        .badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: #fff;
-            padding: 5px 10px;
-            font-weight: bold;
-            border-radius: 5px;
-        }
-
         .harga-badge {
             position: absolute;
             top: 10px;
             left: 10px;
-            background: #ff6f00;
             color: white;
             padding: 5px 10px;
             font-weight: bold;
             font-size: 14px;
             border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.6);
         }
 
-        .card-img-top {
-            height: 200px;
+        .card-img-center {
+            width: 100%;
+            height: auto;
             object-fit: cover;
-        }
-
-        .favorite-icon {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            color: #ccc;
-            cursor: pointer;
-        }
-
-        .favorite-icon:hover {
-            color: red;
+            border-radius: 8px;
         }
 
         .card {
+            border: 2px solid #3c8dbc;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .card:hover {
-            transform: scale(1.05);
+            transform: scale(1.01);
             box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .produk-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            font-size: 14px;
+            font-weight: bold;
         }
 
         .kategori-badge {
             display: inline-block;
             padding: 6px 12px;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 600;
             color: white;
             background-color: #007bff;
-            /* Warna sesuai selera */
-            border-radius: 20px;
-            /* Tinggi tetapi tidak bulat */
+            border-radius: 15px;
+        }
+
+        @media (max-width: 767px) {
+            .col-lg-3 {
+                width: 50%;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 991px) {
+            .col-lg-3 {
+                width: 33.3333%;
+            }
+        }
+
+        @media (min-width: 992px) {
+            .col-lg-3 {
+                width: 25%;
+            }
         }
     </style>
 @endsection
 
 @section('content')
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Dashboard</h1>
+    <div class="content-wrapper">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Selamat Berbelanja {{ Auth::user()->name ?? 'Pelanggan' }}!</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Products</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="row row-cols-2 row-cols-md-4 g-3">
-            @foreach ($produks as $produk)
-                <div class="col">
-                    <div class="card shadow position-relative h-100">
-                        <span class="harga-badge">Rp {{ number_format($produk->harga, 0, ',', '.') }}</span>
-                        <img src="{{ asset('storage/' . $produk->gambar) }}" class="card-img-top img-fluid" alt="Produk" />
-                        <div class="card-body d-flex flex-column text-center">
-                            <h5 class="card-title fw-bold fs-6">{{ $produk->nama }}</h5>
-                            <p class="card-text mt-2">
-                                <span class="kategori-badge">{{ $produk->kategoriProduk->nama }}</span>
-                            </p>
-                            <p class="card-text"><strong>Stok Tersisa:</strong> {{ $produk->stok }}</p>
+        <section class="content">
+            <div class="row">
+                @foreach ($produks as $produk)
+                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                        <div class="card shadow position-relative h-100">
+                            <span class="harga-badge">Rp {{ number_format($produk->harga, 0, ',', '.') }}</span>
+                            <img src="{{ asset('storage/' . $produk->gambar) }}" class="card-img-center" alt="Produk">
+                        </div>
+                        <div class="produk-info">
+                            <span>{{ $produk->nama }}</span>
+                            <span class="kategori-badge">{{ $produk->kategoriProduk->nama }}</span>
                         </div>
                         @auth
                             @if (auth()->user()->role === 'pelanggan')
@@ -105,13 +124,11 @@
                             @endif
                         @endauth
                     </div>
-                </div>
-            @endforeach
-        </div>
-        
-    </main>
+                @endforeach
+            </div>
+        </section>
+    </div>
 @endsection
-
 
 
 {{-- untuk scripts khusus halaman tertentu --}}

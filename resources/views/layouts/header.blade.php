@@ -1,13 +1,22 @@
-<header class="navbar sticky-top bg-success flex-md-nowrap p-0 shadow" data-bs-theme="auto">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">Toserba Berkah Abadi</a>
+<!-- Preloader -->
+{{-- <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
+</div> --}}
 
-    <ul class="navbar-nav flex-row d-md-none">
-        <li class="nav-item text-nowrap">
-            <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMenu"
-                aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="bi bi-list"></i>
-                <!-- Replaced SVG with Bootstrap list icon -->
-            </button>
+<!-- Navbar -->
+<nav class="main-header navbar navbar-expand navbar-lightblue navbar-dark">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav flex-row">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                <i class="fas fa-bars"></i>
+            </a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Home</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a href="#" class="nav-link">Contact</a>
         </li>
     </ul>
 
@@ -26,4 +35,16 @@
             </li>
         @endauth
     </ul>
-</header>
+
+    <!-- Mobile Menu Button -->
+    <ul class="navbar-nav flex-row d-md-none">
+        <li class="nav-item text-nowrap">
+            <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <i class="bi bi-list"></i>
+            </button>
+        </li>
+    </ul>
+</nav>
+<!-- /.navbar -->

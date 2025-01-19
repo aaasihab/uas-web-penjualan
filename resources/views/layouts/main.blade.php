@@ -2,37 +2,26 @@
 <html lang="en" data-bs-theme="auto">
 
 <head>
-    <script src="{{ asset('template/js/color-mode.js') }}"></script>
-
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors" />
-    <meta name="generator" content="Hugo 0.122.0" />
-    <title>Toserba</title>
-    {{-- untuk styles --}}
+    <title>Toserba Berkah Abadi</title>
     @include('layouts.styles')
-    {{-- untuk styles khusus halaman tertentu --}}
+
     @yield('this-page-style')
 </head>
 
-<body>
-    {{-- untuk header --}}
-    @include('layouts.header')
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+        <div></div>
+        {{-- untuk header --}}
+        @include('layouts.header')
 
-    <div class="container-fluid mb-4">
-        <div class="row">
+        {{-- Sidebar --}}
+        @include('layouts.sidebar')
 
-            {{-- untuk sidebar --}}
-            @include('layouts.sidebar')
-
-            {{-- untuk content (akan berubah-ubah sesuai kebutuhan) --}}
-            @yield('content')
-
-        </div>
+        {{-- Konten utama --}}
+        @yield('content')
     </div>
-
-    {{-- untuk scripts --}}
     @include('layouts.scripts')
     {{-- untuk scripts khusus halaman tertentu --}}
     @yield('this-page-scripts')
