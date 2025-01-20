@@ -51,7 +51,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Daftar Pembayaran</h3>
+                    <h3 class="card-title">Daftar Riwayat Pembayaran</h3>
                 </div>
                 <div class="card-body">
                     <!-- Tabel Daftar Pembayaran -->
@@ -84,10 +84,6 @@
                         </table>
                     </div>
                 </div>
-                <div class="card-footer">
-                    <span class="text-muted">Menampilkan daftar pesanan yang telah selesai.</span>
-                </div>
-            </div>
         </div>
     </section>
 </div>

@@ -4,68 +4,93 @@
 @endsection
 
 @section('content')
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Kategori Produk</h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
-                <!-- Tombol Tambah menggunakan tag a -->
-                {{-- <a href="" class="btn btn-primary" role="button">Tambah</a> --}}
-                <a href="{{ route('master.data.kategoriProduk.create') }}" class="btn btn-primary" role="button">Tambah</a>
+    <div class="content-wrapper">
+        <!-- Content Header -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Kategori Produk</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item active">Kategori Produk</li>
+                        </ol>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="container mt-4">
-            <!-- Tabel Daftar Kategori Produk -->
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Kategori</th>
-                        <th>Keterangan</th>
-                        <th>Status</th>
-                        <th>Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($kategoris as $kategori)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $kategori->nama }}</td>
-                            <td>{{ $kategori->keterangan ?? 'Tidak ada keterangan' }}</td>
-                            <td>
-                                @if ($kategori->status === 'aktif')
-                                    <span class="badge bg-success">Aktif</span>
-                                @else
-                                    <span class="badge bg-danger">Non-Aktif</span>
-                                @endif
-                            </td>
-                            <td>
-                                <!-- Tombol Edit dan Hapus -->
-                                <div class="d-flex">
-                                    <a href="{{ route('master.data.kategoriProduk.edit', $kategori->id_kategori_produk) }}"
-                                        class="btn btn-sm btn-outline-secondary me-1 mb-2">
-                                        Edit
-                                    </a>
-                                    <form id="delete-form-{{ $kategori->id_kategori_produk }}"
-                                        action="{{ route('master.data.kategoriProduk.destroy', $kategori->id_kategori_produk) }}"
-                                        method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-sm btn-outline-danger"
-                                            onclick="confirmDelete({{ $kategori->id_kategori_produk }})">
-                                            Hapus
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </main>
+
+        <!-- Main Content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Daftar Kategori Produk</h3>
+                        <div class="card-tools">
+                            <a href="{{ route('master.data.kategoriProduk.create') }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i> Tambah
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- Tabel Daftar Kategori Produk -->
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Kategori</th>
+                                        <th>Keterangan</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($kategoris as $kategori)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $kategori->nama }}</td>
+                                            <td>{{ $kategori->keterangan ?? 'Tidak ada keterangan' }}</td>
+                                            <td>
+                                                @if ($kategori->status === 'aktif')
+                                                    <span class="badge bg-success">Aktif</span>
+                                                @else
+                                                    <span class="badge bg-danger">Non-Aktif</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="{{ route('master.data.kategoriProduk.edit', $kategori->id_kategori_produk) }}"
+                                                        class="btn btn-sm btn-outline-secondary">
+                                                        <i class="fas fa-edit"></i> Edit
+                                                    </a>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger"
+                                                        onclick="confirmDelete({{ $kategori->id_kategori_produk }})">
+                                                        <i class="fas fa-trash"></i> Hapus
+                                                    </button>
+                                                    <form id="delete-form-{{ $kategori->id_kategori_produk }}"
+                                                        action="{{ route('master.data.kategoriProduk.destroy', $kategori->id_kategori_produk) }}"
+                                                        method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 @endsection
 
-{{-- untuk scripts khusus halaman tertentu --}}
+{{-- Script untuk halaman khusus --}}
 @section('this-page-scripts')
     <script>
         function confirmDelete(id) {

@@ -108,6 +108,7 @@
         }
 
         .btn-submit {
+            border: 0;
             margin-top: 30px;
         }
 
@@ -157,6 +158,7 @@
 
         button:hover,
         .btn-register:hover {
+            text-decoration: none;
             background-color: #0056b3;
         }
 
@@ -213,7 +215,7 @@
 
             <!-- Register Button -->
             <div class="btn-wrapper">
-                <a href="{{ route('register.form') }}" class="btn-register">Register</a>
+                <a href="{{ route('register.form') }}" class="btn-register text-white">Register</a>
             </div>
         </form>
     </main>

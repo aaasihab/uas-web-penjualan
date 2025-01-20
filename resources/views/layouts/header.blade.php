@@ -1,8 +1,3 @@
-<!-- Preloader -->
-{{-- <div class="preloader flex-column justify-content-center align-items-center">
-    <img class="animation__shake" src="dist/img/AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-</div> --}}
-
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-lightblue navbar-dark">
     <!-- Left navbar links -->
@@ -13,10 +8,7 @@
             </a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Contact</a>
+            <a href="{{ route('dashboard') }}" class="nav-link">Beranda</a>
         </li>
     </ul>
 
@@ -28,13 +20,28 @@
                     Hai, {{ Auth::user()->name }} <!-- Display user name -->
                 </span>
             </li>
-            <li class="nav-item px-0">
-                <a href="{{ route('profile.index') }}" class="nav-link text-white">
-                    <i class="bi bi-people"></i>
+
+            <!-- Dropdown for Settings and Logout -->
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link text-white" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                    <i class="bi bi-door-open"></i>
                 </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <!-- Settings Button -->
+                    <a href="{{ route('profile.index') }}" class="dropdown-item">
+                        <i class="bi bi-gear"></i> Pengaturan
+                    </a>
+                    <!-- Logout Button -->
+                    <form action="{{ route('logout') }}" method="POST" class="dropdown-item p-0">
+                        @csrf
+                        <button type="submit" class="btn btn-link w-100 text-left text-dark">
+                            <i class="bi bi-box-arrow-right"></i> Keluar
+                        </button>
+                    </form>
+                </div>
             </li>
         @endauth
     </ul>
-
 </nav>
 <!-- /.navbar -->

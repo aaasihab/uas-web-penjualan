@@ -10,12 +10,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Daftar Riwayat Transaksi</h1>
+                        <h1 class="m-0">Daftar Transaksi</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Riwayat Transaksi</li>
+                            <li class="breadcrumb-item active">Daftar Transaksi</li>
                         </ol>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                                     <th>Total Harga</th>
                                     <th>Tanggal Transaksi</th>
                                     <th>Status</th>
-                                    <th>Batal</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,9 +67,9 @@
                                                     method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('PUT')
-                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                    <button type="button" class="btn btn-sm btn-outline-danger"
                                                         onclick="confirmCancel({{ $item->id_transaksi }})">
-                                                        Batal
+                                                        <i class="fas fa-times"></i> Batal
                                                     </button>
                                                 </form>
                                             @endif

@@ -124,7 +124,7 @@ class ProdukController extends Controller
         $produk = Produk::findOrFail($id);
 
         if ($produk->transaksi()->count() > 0) {
-            return redirect()->route('produk.index')->with('error', 'Produk tidak dapat dihapus karena terdapat di daftar transaksi.');
+            return redirect()->route('master.data.produk.index')->with('error', 'Produk tidak dapat dihapus karena terdapat di daftar transaksi.');
         }
 
         if ($produk->gambar && Storage::disk('public')->exists($produk->gambar)) {
