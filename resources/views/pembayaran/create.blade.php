@@ -1,92 +1,105 @@
 @extends('layouts.main')
 
-{{-- Untuk styles khusus halaman tertentu --}}
+{{-- Styles khusus untuk halaman ini --}}
 @section('this-page-style')
-    <style>
-        .product-image {
-            max-width: 125px;
-            /* Ukuran gambar yang lebih kecil */
-            margin-bottom: 1rem;
-        }
-    </style>
 @endsection
 
 @section('content')
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Formulir Pembayaran</h1>
-        </div>
-
-        <div class="container mt-4">
-            <form action="{{ route('master.data.pembayaran.store', $transaksi->id_transaksi) }}" method="POST">
-                @csrf
-
-                <div class="row">
-                    <!-- Kolom Kiri -->
-                    <div class="col-md-6">
-                        <!-- Nama Produk yang Dipilih -->
-                        <div class="mb-3">
-                            <label for="nama_produk" class="form-label">Nama Produk</label>
-                            <input type="text" id="nama_produk" class="form-control"
-                                value="{{ $transaksi->produk->nama }}" readonly disabled>
-                        </div>
-
-                        <!-- Gambar Produk yang Dipilih -->
-                        <div class="mb-0">
-                            <img id="gambar_produk" src="{{ asset('storage/' . $transaksi->produk->gambar) }}"
-                                alt="Gambar Produk" class="img-fluid product-image" readonly disabled>
-                        </div>
-
-                        <!-- Harga Produk -->
-                        <div class="mb-3">
-                            <label for="harga_produk" class="form-label">Harga Produk</label>
-                            <input type="text" id="harga_produk" class="form-control"
-                                value="Rp{{ number_format($transaksi->produk->harga, 0, ',', '.') }}" readonly disabled>
-                        </div>
+    <div class="content-wrapper">
+        <!-- Content Header -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Formulir Pembayaran</h1>
                     </div>
-
-                    <!-- Kolom Kanan -->
-                    <div class="col-md-6">
-                        <!-- Jumlah Produk -->
-                        <div class="mb-3">
-                            <label for="jumlah" class="form-label">Jumlah Produk</label>
-                            <input type="number" id="jumlah" class="form-control"
-                                value="{{ $transaksi->jumlah }}" readonly disabled>
-                        </div>
-
-                        <!-- Total Harga -->
-                        <div class="mb-3">
-                            <label for="total_harga" class="form-label">Total Harga</label>
-                            <input type="text" id="total_harga" class="form-control"
-                                value="Rp{{ number_format($transaksi->total_harga, 0, ',', '.') }}" readonly disabled>
-                        </div>
-
-                        <!-- Jumlah Pembayaran -->
-                        <div class="mb-3">
-                            <label for="total_pembayaran" class="form-label">Jumlah Pembayaran</label>
-                            <input type="number" id="total_pembayaran" name="total_pembayaran"
-                                class="form-control @error('total_pembayaran') is-invalid @enderror"
-                                value="{{ old('total_pembayaran') }}" required>
-                            @error('total_pembayaran')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">
-                            Bayar
-                        </button>
-                        <a href="{{ route('master.data.transaksi.index') }}" class="btn btn-secondary">Batal</a>
-
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('master.data.transaksi.index') }}">Transaksi</a>
+                            </li>
+                            <li class="breadcrumb-item active">Pembayaran</li>
+                        </ol>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
-    </main>
+
+        <!-- Main Content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Detail Produk & Pembayaran</h3>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('master.data.pembayaran.store', $transaksi->id_transaksi) }}" method="POST">
+                            @csrf
+                            <div class="row">
+                                <!-- Kolom Kiri -->
+                                <div class="col-md-6">
+                                    <!-- Nama Produk -->
+                                    <div class="form-group">
+                                        <label for="nama_produk">Nama Produk</label>
+                                        <input type="text" id="nama_produk" class="form-control"
+                                            value="{{ $transaksi->produk->nama }}" readonly>
+                                    </div>
+
+                                    <!-- Gambar Produk -->
+                                    <div class="form-group text-center">
+                                        <img id="gambar_produk" src="{{ asset('storage/' . $transaksi->produk->gambar) }}"
+                                            alt="Gambar Produk" class="img-fluid img-thumbnail">
+                                    </div>
+                                </div>
+
+                                <!-- Kolom Kanan -->
+                                <div class="col-md-6">
+                                    <!-- Jumlah Produk -->
+                                    <div class="form-group">
+                                        <label for="jumlah">Jumlah Produk</label>
+                                        <input type="number" id="jumlah" class="form-control"
+                                            value="{{ $transaksi->jumlah }}" readonly>
+                                    </div>
+
+                                    <!-- Total Harga -->
+                                    <div class="form-group">
+                                        <label for="total_harga">Total Harga</label>
+                                        <input type="text" id="total_harga" class="form-control"
+                                            value="Rp{{ number_format($transaksi->total_harga, 0, ',', '.') }}" readonly>
+                                    </div>
+
+                                    <!-- Jumlah Pembayaran -->
+                                    <div class="form-group">
+                                        <label for="total_pembayaran">Jumlah Pembayaran</label>
+                                        <input type="number" id="total_pembayaran" name="total_pembayaran"
+                                            class="form-control @error('total_pembayaran') is-invalid @enderror"
+                                            value="{{ old('total_pembayaran') }}" required>
+                                        @error('total_pembayaran')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                    </div>
+
+                                    <!-- Tombol Aksi -->
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-primary">
+                                            Bayar
+                                        </button>
+                                        <a href="{{ route('master.data.transaksi.index') }}"
+                                            class="btn btn-secondary">Batal</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 @endsection
 
-{{-- Untuk scripts khusus halaman tertentu --}}
+{{-- Scripts khusus untuk halaman ini --}}
 @section('this-page-scripts')
     <script>
         // Tampilkan SweetAlert untuk pesan sukses

@@ -23,12 +23,12 @@
     <!-- Right-side Header Section with User Name and Icon -->
     <ul class="navbar-nav ms-auto me-4 flex-row username-text">
         @auth
-            <li class="nav-item me-2">
-                <span class="nav-link text-white">
+            <li class="nav-item">
+                <span class="nav-link text-white px-0">
                     Hai, {{ Auth::user()->name }} <!-- Display user name -->
                 </span>
             </li>
-            <li class="nav-item me-3">
+            <li class="nav-item px-0">
                 <a href="{{ route('profile.index') }}" class="nav-link text-white">
                     <i class="bi bi-people"></i>
                 </a>
@@ -36,15 +36,5 @@
         @endauth
     </ul>
 
-    <!-- Mobile Menu Button -->
-    <ul class="navbar-nav flex-row d-md-none">
-        <li class="nav-item text-nowrap">
-            <button class="nav-link px-3 text-white" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <i class="bi bi-list"></i>
-            </button>
-        </li>
-    </ul>
 </nav>
 <!-- /.navbar -->

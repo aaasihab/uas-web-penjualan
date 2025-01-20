@@ -8,7 +8,7 @@
             overflow: hidden;
             position: relative;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            height: 300px;
+            height: 280px;
             /* Tinggi tetap */
             display: flex;
             flex-direction: column;
@@ -30,7 +30,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 10px;
+            padding: 0 10px;
             flex-grow: 1;
         }
 
@@ -55,7 +55,7 @@
             justify-content: space-between;
             align-items: center;
             margin-top: auto;
-            padding-top: 10px;
+            padding-bottom: 3px;
         }
 
         .product-category {

@@ -5,104 +5,101 @@
         .table th,
         .table td {
             font-size: 1rem;
-            /* Ukuran font standar */
         }
 
-        /* Media query untuk perangkat dengan lebar layar lebih kecil dari 768px (mobile) */
         @media (max-width: 768px) {
-
             .table th,
             .table td {
                 font-size: 0.875rem;
-                /* Ukuran font yang lebih kecil pada perangkat mobile */
             }
         }
     </style>
 @endsection
 
 @section('content')
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-        <div class="d-flex flex-wrap justify-content-between align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Riwayat Transaksi Anda</h1>
-        </div>
-
-        <div class="container mt-4">
-            <!-- Tabel Daftar Transaksi -->
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Produk</th>
-                            <th>Jumlah</th>
-                            <th>Total Harga</th>
-                            <th>Tanggal Transaksi</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($transaksi as $item)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->produk->nama }}</td>
-                                <td>{{ $item->jumlah }}</td>
-                                <td>Rp {{ number_format($item->total_harga, 0, ',', '.') }}</td>
-                                <td>{{ \Carbon\Carbon::parse($item->tanggal_transaksi)->format('d-m-Y') }}</td>
-                                <td>
-                                    @if ($item->status == 'batal')
-                                        <span class="badge bg-warning">Dibatalkan</span> <!-- Menampilkan status -->
-                                    @else
-                                        <span class="badge bg-danger">Belum Bayar</span> <!-- Menampilkan status -->
-                                    @endif
-                                </td>
-                                <td>
-                                    @if ($item->status == 'belum bayar')
-                                        <a href="{{ route('master.data.pembayaran.create', $item->id_transaksi) }}"
-                                            class="btn btn-sm btn-outline-secondary">Bayar</a>
-
-                                        <!-- Tombol Batal -->
-                                        <form id="cancel-form-{{ $item->id_transaksi }}"
-                                            action="{{ route('master.data.transaksi.cancel', $item->id_transaksi) }}"
-                                            method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="button" class="btn btn-sm btn-outline-danger"
-                                                onclick="confirmCancel({{ $item->id_transaksi }})">
-                                                Batal
-                                            </button>
-                                        </form>
-                                    @endif
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+    <div class="content-wrapper">
+        <!-- Header -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Riwayat Transaksi Anda</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Riwayat Transaksi</li>
+                        </ol>
+                    </div>
+                </div>
             </div>
         </div>
-    </main>
+
+        <!-- Main Content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Daftar Transaksi</h3>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Produk</th>
+                                    <th>Jumlah</th>
+                                    <th>Total Harga</th>
+                                    <th>Tanggal Transaksi</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($transaksi as $item)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->produk->nama }}</td>
+                                        <td>{{ $item->jumlah }}</td>
+                                        <td>Rp {{ number_format($item->total_harga, 0, ',', '.') }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($item->tanggal_transaksi)->format('d-m-Y') }}</td>
+                                        <td>
+                                            @if ($item->status == 'batal')
+                                                <span class="badge bg-warning">Dibatalkan</span>
+                                            @else
+                                                <span class="badge bg-danger">Belum Bayar</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($item->status == 'belum bayar')
+                                                <a href="{{ route('master.data.pembayaran.create', $item->id_transaksi) }}"
+                                                    class="btn btn-sm btn-primary">Bayar</a>
+
+                                                <form id="cancel-form-{{ $item->id_transaksi }}"
+                                                    action="{{ route('master.data.transaksi.cancel', $item->id_transaksi) }}"
+                                                    method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                        onclick="confirmCancel({{ $item->id_transaksi }})">
+                                                        Batal
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 @endsection
 
 @section('this-page-scripts')
     <script>
-        function confirmBayar(id) {
-            Swal.fire({
-                title: "Apakah Anda yakin?",
-                text: "Apakah Anda yakin ingin membeli produk ini?",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#d33",
-                cancelButtonColor: "#3085d6",
-                confirmButtonText: "Ya, Bayar!",
-                cancelButtonText: "Batal",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Submit form untuk memperbarui transaksi
-                    document.getElementById(`bayar-form-${id}`).submit();
-                }
-            });
-        }
-
         function confirmCancel(id) {
             Swal.fire({
                 title: "Apakah Anda yakin?",
@@ -115,13 +112,11 @@
                 cancelButtonText: "Batal",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // Submit form untuk memperbarui transaksi
                     document.getElementById(`cancel-form-${id}`).submit();
                 }
             });
         }
 
-        // Tampilkan SweetAlert untuk pesan sukses
         @if (session('success'))
             Swal.fire({
                 title: "Berhasil!",
@@ -132,7 +127,6 @@
             });
         @endif
 
-        // Tampilkan SweetAlert untuk pesan error
         @if (session('error'))
             Swal.fire({
                 title: "Gagal!",
