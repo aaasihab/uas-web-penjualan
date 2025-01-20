@@ -12,7 +12,6 @@
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-        <div></div>
         {{-- untuk header --}}
         @include('layouts.header')
 
@@ -22,6 +21,9 @@
         {{-- Konten utama --}}
         @yield('content')
     </div>
+    {{-- footer --}}
+    @include('layouts.footer')
+
     @include('layouts.scripts')
     {{-- untuk scripts khusus halaman tertentu --}}
     @yield('this-page-scripts')

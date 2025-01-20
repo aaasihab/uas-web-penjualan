@@ -2,82 +2,113 @@
 
 @section('this-page-style')
     <style>
-        .card-body {
-            min-height: 100px;
-            padding: 10px;
+        .card {
+            border: 2px solid #3c8dbc;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 300px;
+            /* Tinggi tetap */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
 
-        .card-footer {
-            height: 40px;
-            margin-top: auto;
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .harga-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            color: white;
-            padding: 5px 10px;
-            font-weight: bold;
-            font-size: 14px;
-            border-radius: 5px;
-            background-color: rgba(0, 0, 0, 0.6);
-        }
-
-        .card-img-center {
+        .card-img {
             width: 100%;
             height: auto;
-            object-fit: cover;
-            border-radius: 8px;
+            border-bottom: 3px solid #3c8dbc;
         }
 
-        .card {
-            border: 2px solid #3c8dbc;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 10px;
+            flex-grow: 1;
         }
 
-        .card:hover {
-            transform: scale(1.01);
-            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+        .product-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            overflow: hidden;
+            /* Sembunyikan teks berlebih */
+            text-overflow: ellipsis;
+            /* Tambahkan elipsis "..." */
+            display: -webkit-box;
+            /* Untuk membatasi ke beberapa baris */
+            -webkit-line-clamp: 2;
+            /* Batasi teks ke 2 baris */
+            -webkit-box-orient: vertical;
+            text-align: center;
         }
 
-        .produk-info {
+        .product-actions {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px;
+            margin-top: auto;
+            padding-top: 10px;
+        }
+
+        .product-category {
+            font-size: 14px;
+            font-style: italic;
+            color: #777;
+        }
+
+        .cart-icon {
+            font-size: 20px;
+            color: #3c8dbc;
+            cursor: pointer;
+        }
+
+        .cart-icon:hover {
+            color: #ff6600;
+        }
+
+        .price-badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ff6600;
+            color: white;
+            padding: 5px 10px;
             font-size: 14px;
             font-weight: bold;
+            border-radius: 5px;
         }
 
-        .kategori-badge {
-            display: inline-block;
-            padding: 6px 12px;
-            font-size: 12px;
-            font-weight: 600;
-            color: white;
-            background-color: #007bff;
-            border-radius: 15px;
+        .card-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
         }
 
-        @media (max-width: 767px) {
-            .col-lg-3 {
-                width: 50%;
-            }
+        .card-wrapper {
+            width: 100%;
+            max-width: 200px;
+            display: flex;
+            flex-direction: column;
         }
 
-        @media (min-width: 768px) and (max-width: 991px) {
-            .col-lg-3 {
-                width: 33.3333%;
+        @media (min-width: 576px) {
+            .card-wrapper {
+                width: calc(100% / 3 - 20px);
             }
         }
 
         @media (min-width: 992px) {
-            .col-lg-3 {
-                width: 25%;
+            .card-wrapper {
+                width: calc(100% / 5 - 20px);
             }
         }
     </style>
@@ -101,32 +132,25 @@
             </div>
         </div>
 
-        <section class="content">
-            <div class="row">
-                @foreach ($produks as $produk)
-                    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                        <div class="card shadow position-relative h-100">
-                            <span class="harga-badge">Rp {{ number_format($produk->harga, 0, ',', '.') }}</span>
-                            <img src="{{ asset('storage/' . $produk->gambar) }}" class="card-img-center" alt="Produk">
+        <div class="card-container pb-4">
+            @foreach ($produks as $produk)
+                <div class="card-wrapper">
+                    <div class="card">
+                        <span class="price-badge">Rp {{ number_format($produk->harga, 0, ',', '.') }}</span>
+                        <img src="{{ asset('storage/' . $produk->gambar) }}" class="card-img" alt="Produk">
+                        <div class="card-body">
+                            <div class="product-name text-center">{{ $produk->nama }}</div>
+                            <div class="product-actions">
+                                <div class="product-category">{{ $produk->kategoriProduk->nama }}</div>
+                                <a href="{{ route('master.data.transaksi.create', ['produk' => $produk->id_produk]) }}">
+                                    <i class="bi bi-cart cart-icon"></i>
+                                </a>
+                            </div>
                         </div>
-                        <div class="produk-info">
-                            <span>{{ $produk->nama }}</span>
-                            <span class="kategori-badge">{{ $produk->kategoriProduk->nama }}</span>
-                        </div>
-                        @auth
-                            @if (auth()->user()->role === 'pelanggan')
-                                <div class="card-footer text-center h-auto">
-                                    @if ($produk->status === 'aktif')
-                                        <a href="{{ route('master.data.transaksi.create', ['produk' => $produk->id_produk]) }}"
-                                            class="btn btn-sm btn-outline-success w-100 fs-6">Beli Produk</a>
-                                    @endif
-                                </div>
-                            @endif
-                        @endauth
                     </div>
-                @endforeach
-            </div>
-        </section>
+                </div>
+            @endforeach
+        </div>
     </div>
 @endsection
 
