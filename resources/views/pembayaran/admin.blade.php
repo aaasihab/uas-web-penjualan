@@ -25,6 +25,10 @@
                 font-size: 0.875rem;
             }
         }
+
+        .table-container {
+            overflow-x: auto;
+        }
     </style>
 @endsection
 
@@ -55,7 +59,7 @@
                         <h3 class="card-title">Daftar Riwayat Pembayaran</h3>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
+                        <div class="table-responsive table-container">
                             <table id="pembayaran-table" class="table table-striped table-hover mt-3">
                                 <thead>
                                     <tr>
@@ -98,7 +102,7 @@
     <script>
         $(function() {
             $("#pembayaran-table").DataTable({
-                "responsive": true,
+                "responsive": false,
                 "searching": false,
                 "lengthChange": false,
                 "autoWidth": false,

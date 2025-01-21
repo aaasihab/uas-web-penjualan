@@ -1,6 +1,24 @@
 @extends('layouts.main')
 
 @section('this-page-style')
+    <style>
+        .table th,
+        .table td {
+            font-size: 1rem;
+        }
+
+        @media (max-width: 768px) {
+
+            .table th,
+            .table td {
+                font-size: 0.875rem;
+            }
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -31,34 +49,36 @@
                     </div>
                     <div class="card-body">
                         <!-- Tabel Daftar Pembayaran -->
-                        <table class="table table-striped table-hover">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Produk</th>
-                                    <th>Jumlah</th>
-                                    <th>Total Harga Transaksi</th>
-                                    <th>Total Pembayaran</th>
-                                    <th>Sisa Kembalian</th>
-                                    <th>Waktu Pembayaran</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($pembayaran as $item)
+                        <div class="table-responsive table-container">
+                            <table class="table table-striped table-bordered">
+                                <thead>
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->transaksi->produk->nama }}</td>
-                                        <td>{{ $item->transaksi->jumlah }}</td>
-                                        <td>{{ $item->transaksi->total_harga }}</td>
-                                        <td>Rp {{ number_format($item->total_pembayaran, 0, ',', '.') }}</td>
-                                        <td>Rp {{ number_format($item->sisa_kembalian, 0, ',', '.') }}</td>
-                                        <td>
-                                            {{ $item->waktu_pembayaran ? \Carbon\Carbon::parse($item->waktu_pembayaran)->format('d-m-Y') : 'N/A' }}
-                                        </td>
+                                        <th>No</th>
+                                        <th>Produk</th>
+                                        <th>Jumlah</th>
+                                        <th>Total Harga Transaksi</th>
+                                        <th>Total Pembayaran</th>
+                                        <th>Sisa Kembalian</th>
+                                        <th>Waktu Pembayaran</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($pembayaran as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->transaksi->produk->nama }}</td>
+                                            <td>{{ $item->transaksi->jumlah }}</td>
+                                            <td>{{ $item->transaksi->total_harga }}</td>
+                                            <td>Rp {{ number_format($item->total_pembayaran, 0, ',', '.') }}</td>
+                                            <td>Rp {{ number_format($item->sisa_kembalian, 0, ',', '.') }}</td>
+                                            <td>
+                                                {{ $item->waktu_pembayaran ? \Carbon\Carbon::parse($item->waktu_pembayaran)->format('d-m-Y') : 'N/A' }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

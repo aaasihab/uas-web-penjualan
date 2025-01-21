@@ -1,6 +1,26 @@
 @extends('layouts.main')
 
 @section('this-page-style')
+    <style>
+        /* Ukuran font default */
+        table td,
+        table th {
+            font-size: 1rem;
+        }
+
+        /* Media query untuk ukuran layar lebih kecil dari 768px (mobile) */
+        @media (max-width: 768px) {
+
+            table td,
+            table th {
+                font-size: 0.875rem;
+            }
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -30,6 +50,7 @@
                         <h3 class="card-title">Daftar Riwayat Transaksi</h3>
                     </div>
                     <div class="card-body">
+                        <div class="table-container table-responsive">
                         <table id="transaction-table" class="table table-striped table-bordered mt-3">
                             <thead>
                                 <tr>
@@ -81,7 +102,7 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            
         </section>
     </div>
 @endsection
@@ -91,11 +112,11 @@
     <script>
         $(function() {
             $("#transaction-table").DataTable({
-                "responsive": true,
+                "responsive": false,
                 "searching": false,
                 "lengthChange": false,
                 "autoWidth": false,
-                "buttons": ["excel", "pdf", "print",]
+                "buttons": ["excel", "pdf", "print", ]
             }).buttons().container().appendTo('#transaction-table_wrapper .col-md-6:eq(0)');
         });
 

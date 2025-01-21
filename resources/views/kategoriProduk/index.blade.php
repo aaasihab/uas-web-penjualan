@@ -1,6 +1,11 @@
 @extends('layouts.main')
 
 @section('this-page-style')
+    <style>
+        .table-container {
+            overflow-x: auto;
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -36,51 +41,53 @@
                     </div>
                     <div class="card-body">
                         <!-- Tabel Daftar Kategori Produk -->
-                        <table id="kategori-table" class="table table-bordered table-striped">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Kategori</th>
-                                    <th>Keterangan</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($kategoris as $kategori)
+                        <div class="table-responsive table-container">
+                            <table class="table table-bordered table-striped">
+                                <thead>
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $kategori->nama }}</td>
-                                        <td>{{ $kategori->keterangan ?? 'Tidak ada keterangan' }}</td>
-                                        <td>
-                                            @if ($kategori->status === 'aktif')
-                                                <span class="badge bg-success">Aktif</span>
-                                            @else
-                                                <span class="badge bg-danger">Non-Aktif</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <div class="btn-group">
-                                                <a href="{{ route('master.data.kategoriProduk.edit', $kategori->id_kategori_produk) }}"
-                                                    class="btn btn-sm btn-outline-secondary">
-                                                    <i class="fas fa-edit"></i> Edit
-                                                </a>
-                                                <button type="button" class="btn btn-sm btn-outline-danger"
-                                                    onclick="confirmDelete({{ $kategori->id_kategori_produk }})">
-                                                    <i class="fas fa-trash"></i> Hapus
-                                                </button>
-                                                <form id="delete-form-{{ $kategori->id_kategori_produk }}"
-                                                    action="{{ route('master.data.kategoriProduk.destroy', $kategori->id_kategori_produk) }}"
-                                                    method="POST" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            </div>
-                                        </td>
+                                        <th>No</th>
+                                        <th>Kategori</th>
+                                        <th>Keterangan</th>
+                                        <th>Status</th>
+                                        <th>Aksi</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($kategoris as $kategori)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $kategori->nama }}</td>
+                                            <td>
+                                                {{ $kategori->keterangan ?? 'Tidak ada keterangan' }}</td>
+                                            <td>
+                                                <span
+                                                    class="badge {{ $kategori->status === 'aktif' ? 'bg-success' : 'bg-danger' }}">
+                                                    {{ ucfirst($kategori->status) }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <a href="{{ route('master.data.kategoriProduk.edit', $kategori->id_kategori_produk) }}"
+                                                        class="btn btn-sm btn-outline-secondary">
+                                                        <i class="fas fa-edit"></i> Edit
+                                                    </a>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger"
+                                                        onclick="confirmDelete({{ $kategori->id_kategori_produk }})">
+                                                        <i class="fas fa-trash"></i> Hapus
+                                                    </button>
+                                                    <form id="delete-form-{{ $kategori->id_kategori_produk }}"
+                                                        action="{{ route('master.data.kategoriProduk.destroy', $kategori->id_kategori_produk) }}"
+                                                        method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>

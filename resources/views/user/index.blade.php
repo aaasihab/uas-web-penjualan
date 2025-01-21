@@ -26,66 +26,76 @@
         <!-- Main Content -->
         <section class="content">
             <div class="container-fluid">
-                <div class="card">
-                    <!-- Card Header -->
-                    <div class="card-header">
-                        <h3 class="card-title">Daftar Pengguna</h3>
-                        <div class="card-tools">
-                            <!-- Tombol Tambah -->
-                            <a href="{{ route('master.data.user.create') }}" class="btn btn-primary btn-sm">
-                                <i class="fas fa-user-plus"></i> Tambah
-                            </a>
-                        </div>
-                    </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <!-- Card Header -->
+                            <div class="card-header">
+                                <h3 class="card-title">Daftar Pengguna</h3>
+                                <div class="card-tools">
+                                    <!-- Tombol Tambah -->
+                                    <a href="{{ route('master.data.user.create') }}" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-user-plus"></i> Tambah
+                                    </a>
+                                </div>
+                            </div>
 
-                    <!-- Card Body -->
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th style="width: 5%;">No</th>
-                                        <th>Nama</th>
-                                        <th>Email</th>
-                                        <th>Role</th>
-                                        <th style="width: 15%;">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($users as $user)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>
-                                                @if ($user->role == 'admin')
-                                                    <span class="badge bg-olive">{{ ucfirst($user->role) }}</span>
-                                                @else
-                                                    <span class="badge bg-warning">{{ ucfirst($user->role) }}</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <!-- Tombol Edit -->
-                                                <a href="{{ route('master.data.user.edit', $user->id) }}"
-                                                    class="btn btn-sm btn-outline-secondary">
-                                                    <i class="fas fa-edit"></i> Edit
-                                                </a>
-                                                <!-- Tombol Hapus -->
-                                                <button type="button" class="btn btn-sm btn-outline-danger"
-                                                    onclick="confirmDelete({{ $user->id }})">
-                                                    <i class="fas fa-trash"></i> Hapus
-                                                </button>
-                                                <form id="delete-user-form-{{ $user->id }}"
-                                                    action="{{ route('master.data.user.destroy', $user->id) }}"
-                                                    method="POST" style="display:none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                            <!-- Card Body -->
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="width: 5%;">No</th>
+                                                <th>Nama</th>
+                                                <th>Email</th>
+                                                <th>Role</th>
+                                                <th>Role</th>
+                                                <th>Role</th>
+                                                <th>Role</th>
+                                                <th style="width: 15%;">Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($users as $user)
+                                                <tr>
+                                                    <td>{{ $loop->iteration }}</td>
+                                                    <td>{{ $user->name }}</td>
+                                                    <td>{{ $user->email }}</td>
+                                                    <td>
+                                                        @if ($user->role == 'admin')
+                                                            <span class="badge bg-olive">{{ ucfirst($user->role) }}</span>
+                                                        @else
+                                                            <span class="badge bg-warning">{{ ucfirst($user->role) }}</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>apa</td>
+                                                    <td>apa</td>
+                                                    <td>apa</td>
+                                                    <td>
+                                                        <!-- Tombol Edit -->
+                                                        <a href="{{ route('master.data.user.edit', $user->id) }}"
+                                                            class="btn btn-sm btn-outline-secondary">
+                                                            <i class="fas fa-edit"></i> Edit
+                                                        </a>
+                                                        <!-- Tombol Hapus -->
+                                                        <button type="button" class="btn btn-sm btn-outline-danger"
+                                                            onclick="confirmDelete({{ $user->id }})">
+                                                            <i class="fas fa-trash"></i> Hapus
+                                                        </button>
+                                                        <form id="delete-user-form-{{ $user->id }}"
+                                                            action="{{ route('master.data.user.destroy', $user->id) }}"
+                                                            method="POST" style="display:none;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
