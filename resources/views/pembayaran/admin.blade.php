@@ -39,12 +39,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Pesanan Selesai</h1>
+                        <h1 class="m-0">Daftar Penjualan</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
-                            <li class="breadcrumb-item active">Pesanan Selesai</li>
+                            <li class="breadcrumb-item active">Daftar Penjualan</li>
                         </ol>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Daftar Riwayat Pembayaran</h3>
+                        <h3 class="card-title">Daftar Riwayat Penjualan</h3>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive table-container">
