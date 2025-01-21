@@ -55,33 +55,39 @@
                         <h3 class="card-title">Daftar Riwayat Pembayaran</h3>
                     </div>
                     <div class="card-body">
-                        <!-- Tabel Daftar Pembayaran -->
-                        <table id="pembayaran-table" class="table table-striped table-hover mt-3">
-                            <thead>
-                                <tr>
-                                    <th>No</th>
-                                    <th>Nama Pelanggan</th>
-                                    <th>Produk</th>
-                                    <th>Jumlah</th>
-                                    <th>Total Pembayaran</th>
-                                    <th>Waktu Pembayaran</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($pembayaran as $item)
+                        <div class="table-responsive">
+                            <table id="pembayaran-table" class="table table-striped table-hover mt-3">
+                                <thead>
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->transaksi->user->name }}</td>
-                                        <td>{{ $item->transaksi->produk->nama }}</td>
-                                        <td>{{ $item->transaksi->jumlah }}</td>
-                                        <td>Rp{{ number_format($item->total_pembayaran, 0, ',', '.') }}</td>
-                                        <td>
-                                            {{ $item->waktu_pembayaran ? \Carbon\Carbon::parse($item->waktu_pembayaran)->format('d-m-Y') : 'N/A' }}
-                                        </td>
+                                        <th>No</th>
+                                        <th>Nama Pelanggan</th>
+                                        <th>Produk</th>
+                                        <th>Jumlah</th>
+                                        <th>Total Harga Transaksi</th>
+                                        <th>Total Pembayaran</th>
+                                        <th>Sisa Kembalian</th>
+                                        <th>Waktu Pembayaran</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($pembayaran as $item)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $item->transaksi->user->name }}</td>
+                                            <td>{{ $item->transaksi->produk->nama }}</td>
+                                            <td>{{ $item->transaksi->jumlah }}</td>
+                                            <td>{{ $item->transaksi->total_harga }}</td>
+                                            <td>Rp {{ number_format($item->total_pembayaran, 0, ',', '.') }}</td>
+                                            <td>Rp {{ number_format($item->sisa_kembalian, 0, ',', '.') }}</td>
+                                            <td>
+                                                {{ $item->waktu_pembayaran ? \Carbon\Carbon::parse($item->waktu_pembayaran)->format('d-m-Y') : 'N/A' }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+
                     </div>
                 </div>
         </section>

@@ -31,32 +31,34 @@
                     </div>
                     <div class="card-body">
                         <!-- Tabel Daftar Pembayaran -->
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover">
-                                <thead>
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Produk</th>
+                                    <th>Jumlah</th>
+                                    <th>Total Harga Transaksi</th>
+                                    <th>Total Pembayaran</th>
+                                    <th>Sisa Kembalian</th>
+                                    <th>Waktu Pembayaran</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($pembayaran as $item)
                                     <tr>
-                                        <th>No</th>
-                                        <th>Produk</th>
-                                        <th>Jumlah</th>
-                                        <th>Total Pembayaran</th>
-                                        <th>Waktu Pembayaran</th>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->transaksi->produk->nama }}</td>
+                                        <td>{{ $item->transaksi->jumlah }}</td>
+                                        <td>{{ $item->transaksi->total_harga }}</td>
+                                        <td>Rp {{ number_format($item->total_pembayaran, 0, ',', '.') }}</td>
+                                        <td>Rp {{ number_format($item->sisa_kembalian, 0, ',', '.') }}</td>
+                                        <td>
+                                            {{ $item->waktu_pembayaran ? \Carbon\Carbon::parse($item->waktu_pembayaran)->format('d-m-Y') : 'N/A' }}
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($pembayaran as $item)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $item->transaksi->produk->nama }}</td>
-                                            <td>{{ $item->transaksi->jumlah }}</td>
-                                            <td>Rp{{ number_format($item->total_pembayaran, 0, ',', '.') }}</td>
-                                            <td>
-                                                {{ $item->waktu_pembayaran ? \Carbon\Carbon::parse($item->waktu_pembayaran)->format('d-m-Y') : 'N/A' }}
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -66,4 +68,26 @@
 
 
 @section('this-page-scripts')
+    <script>
+        // Tampilkan SweetAlert untuk pesan sukses
+        @if (session('success'))
+            Swal.fire({
+                title: "Berhasil!",
+                text: "{{ session('success') }}",
+                icon: "success",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        @endif
+
+        // Tampilkan SweetAlert untuk pesan error
+        @if (session('error'))
+            Swal.fire({
+                title: "Gagal!",
+                text: "{{ session('error') }}",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+        @endif
+    </script>
 @endsection

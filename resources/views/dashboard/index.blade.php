@@ -124,7 +124,8 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item active">Beranda</></li>
+                            <li class="breadcrumb-item active">Beranda</>
+                            </li>
                             <li class="breadcrumb-item "></li>
                         </ol>
                     </div>
@@ -132,63 +133,71 @@
             </div>
         </div>
 
-        <div class="card-container pb-4">
-            @foreach ($produks as $produk)
-                <div class="card-wrapper">
-                    <div class="card">
-                        <span class="price-badge">Rp {{ number_format($produk->harga, 0, ',', '.') }}</span>
-                        <img src="{{ asset('storage/' . $produk->gambar) }}" class="card-img" alt="Produk">
-                        <div class="card-body">
-                            <div class="product-name text-center">{{ $produk->nama }}</div>
-                            <div class="product-actions">
-                                <div class="product-category">{{ $produk->kategoriProduk->nama }}</div>
-                                <a href="{{ route('master.data.transaksi.create', ['produk' => $produk->id_produk]) }}">
-                                    <i class="bi bi-cart-plus"></i>
-                                </a>
+        <!-- Main Content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="card-container pb-4">
+                        @foreach ($produks as $produk)
+                            <div class="card-wrapper">
+                                <div class="card">
+                                    <span class="price-badge">Rp {{ number_format($produk->harga, 0, ',', '.') }}</span>
+                                    <img src="{{ asset('storage/' . $produk->gambar) }}" class="card-img" alt="Produk">
+                                    <div class="card-body">
+                                        <div class="product-name text-center">{{ $produk->nama }}</div>
+                                        <div class="product-actions">
+                                            <div class="product-category">{{ $produk->kategoriProduk->nama }}</div>
+                                            <a
+                                                href="{{ route('master.data.transaksi.create', ['produk' => $produk->id_produk]) }}">
+                                                <i class="bi bi-cart-plus"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                 </div>
-            @endforeach
-        </div>
-    </div>
-@endsection
+            </div>
+
+        </section>
+    @endsection
 
 
-{{-- untuk scripts khusus halaman tertentu --}}
-@section('this-page-scripts')
-    <script>
-        @if (session('login-success'))
-            const Toast = Swal.mixin({
-                toast: true,
-                position: "top-end",
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true,
-            });
-            Toast.fire({
-                icon: "success",
-                title: "{{ session('login-success') }}"
-            });
-        @endif
+    {{-- untuk scripts khusus halaman tertentu --}}
+    @section('this-page-scripts')
+        <script>
+            @if (session('login-success'))
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true,
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: "{{ session('login-success') }}"
+                });
+            @endif
 
-        @if (session('error'))
-            Swal.fire({
-                title: "Gagal!",
-                text: "{{ session('error') }}",
-                icon: "error",
-                confirmButtonText: "OK",
-            });
-        @endif
+            @if (session('error'))
+                Swal.fire({
+                    title: "Gagal!",
+                    text: "{{ session('error') }}",
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
+            @endif
 
-        @if (session('success'))
-            Swal.fire({
-                title: "Berhasil!",
-                text: "{{ session('success') }}",
-                icon: "success",
-                showConfirmButton: false,
-                timer: 1000,
-            });
-        @endif
-    </script>
-@endsection
+            @if (session('success'))
+                Swal.fire({
+                    title: "Berhasil!",
+                    text: "{{ session('success') }}",
+                    icon: "success",
+                    showConfirmButton: false,
+                    timer: 1000,
+                });
+            @endif
+        </script>
+    @endsection

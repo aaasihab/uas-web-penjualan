@@ -34,11 +34,13 @@
                     </a>
                     <div class="dropdown-divider"></div>
                     <!-- Logout Button -->
-                    <form action="{{ route('logout') }}" method="POST" class="m-0 p-0">
+                    <button type="button" class="dropdown-item text-danger" onclick="confirmLogout()">
+                        <i class="fas fa-sign-out-alt"></i> Keluar
+                    </button>
+
+                    <!-- Logout Form -->
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display:none;">
                         @csrf
-                        <button type="submit" class="dropdown-item text-danger">
-                            <i class="fas fa-sign-out-alt"></i> Keluar
-                        </button>
                     </form>
                 </div>
             </li>

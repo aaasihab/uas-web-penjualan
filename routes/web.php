@@ -23,6 +23,9 @@ Route::post('register', [AuthController::class, 'register'])->name('register'); 
 Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 
 Route::middleware(['auth'])->prefix('master-data')->name('master.data.')->group(function () {
+    Route::get('/admin', [DashboardController::class, 'admin'])
+        ->middleware('role:admin')
+        ->name('admin');
 
     Route::prefix('transaksi')->name('transaksi.')->group(function () {
         Route::get('/', [TransaksiController::class, 'index'])

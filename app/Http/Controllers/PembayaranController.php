@@ -72,25 +72,30 @@ class PembayaranController extends Controller
 
         // Cek apakah total pembayaran kurang dari total harga transaksi
         if ($validated['total_pembayaran'] < $transaksi->total_harga) {
-            // Redirect kembali dengan pesan error
             return redirect()->route('master.data.pembayaran.create', $transaksiId)
                 ->with('error', 'Jumlah pembayaran kurang dari total harga transaksi.');
         }
+
+        // Hitung sisa kembalian
+        $kembalian = $validated['total_pembayaran'] - $transaksi->total_harga;
 
         // Buat data pembayaran baru
         Pembayaran::create([
             'transaksi_id' => $transaksi->id_transaksi,
             'total_pembayaran' => $validated['total_pembayaran'],
+            'sisa_kembalian' => $kembalian,
             'waktu_pembayaran' => now(),
         ]);
 
         // Perbarui status transaksi menjadi "bayar"
         $transaksi->update(['status' => 'bayar']);
 
-        // Redirect dengan pesan sukses
-        return redirect()->route('master.data.pembayaran.index')->with('success', 'Pembayaran berhasil disimpan.');
+        // Redirect dengan pesan sukses dan kembalian (jika ada)
+        return redirect()->route('master.data.pembayaran.index')->with(
+            'success',
+            'Pembayaran berhasil disimpan.' . ($kembalian > 0 ? ' Kembalian: Rp ' . number_format($kembalian, 0, ',', '.') : '')
+        );
     }
-
 
 
     /**

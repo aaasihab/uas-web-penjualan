@@ -36,53 +36,51 @@
                     </div>
                     <div class="card-body">
                         <!-- Tabel Daftar Kategori Produk -->
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped">
-                                <thead>
+                        <table id="kategori-table" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kategori</th>
+                                    <th>Keterangan</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($kategoris as $kategori)
                                     <tr>
-                                        <th>No</th>
-                                        <th>Kategori</th>
-                                        <th>Keterangan</th>
-                                        <th>Status</th>
-                                        <th>Aksi</th>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $kategori->nama }}</td>
+                                        <td>{{ $kategori->keterangan ?? 'Tidak ada keterangan' }}</td>
+                                        <td>
+                                            @if ($kategori->status === 'aktif')
+                                                <span class="badge bg-success">Aktif</span>
+                                            @else
+                                                <span class="badge bg-danger">Non-Aktif</span>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <div class="btn-group">
+                                                <a href="{{ route('master.data.kategoriProduk.edit', $kategori->id_kategori_produk) }}"
+                                                    class="btn btn-sm btn-outline-secondary">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </a>
+                                                <button type="button" class="btn btn-sm btn-outline-danger"
+                                                    onclick="confirmDelete({{ $kategori->id_kategori_produk }})">
+                                                    <i class="fas fa-trash"></i> Hapus
+                                                </button>
+                                                <form id="delete-form-{{ $kategori->id_kategori_produk }}"
+                                                    action="{{ route('master.data.kategoriProduk.destroy', $kategori->id_kategori_produk) }}"
+                                                    method="POST" style="display: none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            </div>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($kategoris as $kategori)
-                                        <tr>
-                                            <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $kategori->nama }}</td>
-                                            <td>{{ $kategori->keterangan ?? 'Tidak ada keterangan' }}</td>
-                                            <td>
-                                                @if ($kategori->status === 'aktif')
-                                                    <span class="badge bg-success">Aktif</span>
-                                                @else
-                                                    <span class="badge bg-danger">Non-Aktif</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <div class="btn-group">
-                                                    <a href="{{ route('master.data.kategoriProduk.edit', $kategori->id_kategori_produk) }}"
-                                                        class="btn btn-sm btn-outline-secondary">
-                                                        <i class="fas fa-edit"></i> Edit
-                                                    </a>
-                                                    <button type="button" class="btn btn-sm btn-outline-danger"
-                                                        onclick="confirmDelete({{ $kategori->id_kategori_produk }})">
-                                                        <i class="fas fa-trash"></i> Hapus
-                                                    </button>
-                                                    <form id="delete-form-{{ $kategori->id_kategori_produk }}"
-                                                        action="{{ route('master.data.kategoriProduk.destroy', $kategori->id_kategori_produk) }}"
-                                                        method="POST" style="display: none;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -93,6 +91,16 @@
 {{-- Script untuk halaman khusus --}}
 @section('this-page-scripts')
     <script>
+        $(function() {
+            $("#kategori-table").DataTable({
+                "responsive": true,
+                "searching": false,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["excel", "pdf", "print", ]
+            }).buttons().container().appendTo('#kategori-table_wrapper .col-md-6:eq(0)');
+        });
+
         function confirmDelete(id) {
             Swal.fire({
                 title: "Apakah Anda yakin?",

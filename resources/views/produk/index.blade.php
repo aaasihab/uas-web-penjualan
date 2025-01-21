@@ -36,67 +36,66 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped">
-                                <thead>
+                        <table id="product-table" class="table table-bordered table-striped mt-3">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%;">No</th>
+                                    <th>Nama</th>
+                                    <th>Kategori</th>
+                                    <th>Harga</th>
+                                    <th>Stok</th>
+                                    <th>Gambar</th>
+                                    <th>Status</th>
+                                    <th style="width: 15%;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($produks as $produk)
                                     <tr>
-                                        <th style="width: 5%;">No</th>
-                                        <th>Nama</th>
-                                        <th>Kategori</th>
-                                        <th>Harga</th>
-                                        <th>Stok</th>
-                                        <th>Gambar</th>
-                                        <th>Status</th>
-                                        <th style="width: 15%;">Aksi</th>
+                                        <td class="align-middle">{{ $loop->iteration }}</td>
+                                        <td class="align-middle">{{ $produk->nama }}</td>
+                                        <td class="align-middle">{{ $produk->kategoriProduk->nama }}</td>
+                                        <td class="align-middle">Rp {{ number_format($produk->harga, 0, ',', '.') }}
+                                        </td>
+                                        <td class="align-middle">{{ $produk->stok }}</td>
+                                        <td class="text-center align-middle">
+                                            <!-- Menampilkan gambar -->
+                                            @if ($produk->gambar)
+                                                <img src="{{ asset('storage/' . $produk->gambar) }}"
+                                                    alt="{{ $produk->nama }}" class="img-thumbnail"
+                                                    style="width: 75px; height: 75px; object-fit: cover;">
+                                            @else
+                                                <span class="text-muted">Tidak ada gambar</span>
+                                            @endif
+                                        </td>
+                                        <td class="align-middle">
+                                            <span
+                                                class="badge {{ $produk->status == 'aktif' ? 'bg-success' : 'bg-danger' }}">
+                                                {{ ucfirst($produk->status) }}
+                                            </span>
+                                        </td>
+                                        <td class="align-middle">
+                                            <div class="btn-group">
+                                                <a href="{{ route('master.data.produk.edit', $produk->id_produk) }}"
+                                                    class="btn btn-sm btn-outline-secondary">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </a>
+                                                <button type="button" class="btn btn-sm btn-outline-danger"
+                                                    onclick="confirmDelete({{ $produk->id_produk }})">
+                                                    <i class="fas fa-trash"></i> Hapus
+                                                </button>
+                                                <form id="delete-form-{{ $produk->id_produk }}"
+                                                    action="{{ route('master.data.produk.destroy', $produk->id_produk) }}"
+                                                    method="POST" style="display:none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            </div>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($produks as $produk)
-                                        <tr>
-                                            <td class="align-middle">{{ $loop->iteration }}</td>
-                                            <td class="align-middle">{{ $produk->nama }}</td>
-                                            <td class="align-middle">{{ $produk->kategoriProduk->nama }}</td>
-                                            <td class="align-middle">Rp {{ number_format($produk->harga, 0, ',', '.') }}</td>
-                                            <td class="align-middle">{{ $produk->stok }}</td>
-                                            <td class="text-center align-middle">
-                                                <!-- Menampilkan gambar -->
-                                                @if ($produk->gambar)
-                                                    <img src="{{ asset('storage/' . $produk->gambar) }}"
-                                                        alt="{{ $produk->nama }}" class="img-thumbnail"
-                                                        style="width: 75px; height: 75px; object-fit: cover;">
-                                                @else
-                                                    <span class="text-muted">Tidak ada gambar</span>
-                                                @endif
-                                            </td>
-                                            <td class="align-middle">
-                                                <span
-                                                    class="badge {{ $produk->status == 'aktif' ? 'bg-success' : 'bg-danger' }}">
-                                                    {{ ucfirst($produk->status) }}
-                                                </span>
-                                            </td>
-                                            <td class="align-middle">
-                                                <div class="btn-group">
-                                                    <a href="{{ route('master.data.produk.edit', $produk->id_produk) }}"
-                                                        class="btn btn-sm btn-outline-secondary">
-                                                        <i class="fas fa-edit"></i> Edit
-                                                    </a>
-                                                    <button type="button" class="btn btn-sm btn-outline-danger"
-                                                        onclick="confirmDelete({{ $produk->id_produk }})">
-                                                        <i class="fas fa-trash"></i> Hapus
-                                                    </button>
-                                                    <form id="delete-form-{{ $produk->id_produk }}"
-                                                        action="{{ route('master.data.produk.destroy', $produk->id_produk) }}"
-                                                        method="POST" style="display:none;">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -107,6 +106,17 @@
 {{-- Untuk scripts khusus halaman tertentu --}}
 @section('this-page-scripts')
     <script>
+        $(function() {
+            $("#product-table").DataTable({
+                "responsive": true,
+                "searching": false,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["excel", "pdf", "print", ]
+            }).buttons().container().appendTo('#product-table_wrapper .col-md-6:eq(0)');
+        });
+
+
         function confirmDelete(id) {
             Swal.fire({
                 title: "Apakah Anda yakin?",

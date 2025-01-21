@@ -31,6 +31,11 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Detail Produk & Pembayaran</h3>
+                        <div class="card-tools">
+                            <a href="{{ route('master.data.transaksi.index') }}" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('master.data.pembayaran.store', $transaksi->id_transaksi) }}" method="POST">
@@ -84,11 +89,13 @@
                                     <!-- Tombol Aksi -->
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">
-                                            Bayar
+                                            <i class="bi bi-credit-card"></i> Bayar
                                         </button>
-                                        <a href="{{ route('master.data.transaksi.index') }}"
-                                            class="btn btn-secondary">Batal</a>
+                                        <a href="{{ route('master.data.transaksi.index') }}" class="btn btn-secondary">
+                                            <i class="bi bi-x-circle"></i> Batal
+                                        </a>
                                     </div>
+
                                 </div>
                             </div>
                         </form>

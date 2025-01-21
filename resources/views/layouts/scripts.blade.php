@@ -1,3 +1,23 @@
+<script>
+    function confirmLogout() {
+        Swal.fire({
+            title: "Apakah Anda yakin?",
+            text: "Anda akan keluar dari akun ini.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, keluar!",
+            cancelButtonText: "Batal",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit form logout
+                document.getElementById('logout-form').submit();
+            }
+        });
+    }
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- jQuery -->
 <script src="{{ asset('assets/plugins/jquery/jquery.min.js') }}"></script>

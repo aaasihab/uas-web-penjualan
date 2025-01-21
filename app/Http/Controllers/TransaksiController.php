@@ -144,6 +144,9 @@ class TransaksiController extends Controller
 
         // Mendapatkan produk terkait dengan transaksi
         $produk = Produk::findOrFail($transaksi->produk_id);
+        if (!$produk) {
+            return redirect()->route('dashboard')->with('error', 'Data produk tidak ditemukan.');
+        }
 
         // Mengembalikan stok produk yang dibatalkan
         $produk->increment('stok', $transaksi->jumlah);

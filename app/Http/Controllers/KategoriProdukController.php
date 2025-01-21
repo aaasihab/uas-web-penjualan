@@ -130,7 +130,7 @@ class KategoriProdukController extends Controller
         if ($kategori->produk()->count() > 0) {
             // Jika ada relasi dengan buku, kembalikan pesan error
             return redirect()->route('master.data.kategoriProduk.index')
-                ->with('error', 'Kategori ini tidak bisa dihapus karena memiliki relasi dengan buku');
+                ->with('error', 'Kategori ini tidak bisa dihapus karena terdapat produk dengan kategori ini');
         }
 
         // Hapus kategori jika tidak ada relasi dengan buku

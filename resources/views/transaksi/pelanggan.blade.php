@@ -8,6 +8,7 @@
         }
 
         @media (max-width: 768px) {
+
             .table th,
             .table td {
                 font-size: 0.875rem;
@@ -42,7 +43,7 @@
                     <div class="card-header">
                         <h3 class="card-title">Daftar Transaksi</h3>
                     </div>
-                    <div class="card-body table-responsive">
+                    <div class="card-body">
                         <table class="table table-striped table-bordered">
                             <thead>
                                 <tr>
@@ -73,7 +74,9 @@
                                         <td>
                                             @if ($item->status == 'belum bayar')
                                                 <a href="{{ route('master.data.pembayaran.create', $item->id_transaksi) }}"
-                                                    class="btn btn-sm btn-primary">Bayar</a>
+                                                    class="btn btn-sm btn-primary">
+                                                    <i class="bi bi-credit-card"></i> Bayar
+                                                </a>
 
                                                 <form id="cancel-form-{{ $item->id_transaksi }}"
                                                     action="{{ route('master.data.transaksi.cancel', $item->id_transaksi) }}"
@@ -82,7 +85,7 @@
                                                     @method('PUT')
                                                     <button type="button" class="btn btn-sm btn-danger"
                                                         onclick="confirmCancel({{ $item->id_transaksi }})">
-                                                        Batal
+                                                        <i class="fas fa-times-circle"></i> Batal
                                                     </button>
                                                 </form>
                                             @endif

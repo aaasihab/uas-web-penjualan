@@ -2,8 +2,8 @@
 <aside class="main-sidebar sidebar-dark-lightblue elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('dashboard') }}" class="brand-link">
-        <img src="{{ asset('assets/img/sihab.jpg') }}" alt="profil"
-            class="brand-image img-circle elevation-3" style="opacity: .8">
+        <img src="{{ asset('assets/img/sihab.jpg') }}" alt="profil" class="brand-image img-circle elevation-3"
+            style="opacity: .8">
         <span class="brand-text font-weight-light">Toserba</span>
     </a>
 
@@ -13,8 +13,20 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column gap-1" data-widget="treeview" role="menu"
                 data-accordion="false">
+
+                @if (auth()->user()->role == 'admin')
+                    <!-- Dashboard Admin Menu -->
+                    <li class="nav-item">
+                        <a href="{{ route('master.data.admin') }}"
+                            class="nav-link {{ request()->routeIs('admin') ? 'active' : '' }}">
+                            <i class="nav-icon bi bi-speedometer"></i>
+                            <p>Dasbor Admin</p>
+                        </a>
+                    </li>
+                @endif
+
                 <!-- Dashboard Menu -->
-                <li class="nav-item">
+                <li class="nav-item user-panel">
                     <a href="{{ route('dashboard') }}"
                         class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-houses-fill"></i>
@@ -23,7 +35,7 @@
                 </li>
 
                 <!-- Data Master Section -->
-                <li class="nav-header">DATA MASTER</li>
+                <li class="nav-header user-panel">DATA MASTER</li>
 
                 <!-- Daftar Transaksi -->
                 <li class="nav-item">
@@ -36,12 +48,14 @@
                     </a>
                 </li>
 
-                <!-- Pesanan Selesai -->
+                <!-- Pembelian Selesai -->
                 <li class="nav-item">
                     <a href="{{ route('master.data.pembayaran.index') }}"
                         class="nav-link {{ request()->routeIs('master.data.pembayaran.index') ? 'active' : '' }}">
                         <i class="bi bi-check-circle nav-icon"></i>
-                        <p>Pesanan Selesai</p>
+                        <p>
+                            {{ auth()->user()->role == 'admin' ? 'Daftar Penjualan' : 'Riwayat Pembayaran' }}
+                        </p>
                     </a>
                 </li>
 
@@ -50,7 +64,7 @@
                     <!-- Kategori -->
                     <li class="nav-item">
                         <a href="{{ route('master.data.kategoriProduk.index') }}"
-                            class="nav-link {{ request()->routeIs('master.data.kategoriProduk.index') ? 'active' : '' }}">
+                            class="nav-link {{ request()->routeIs('master.data.kategoriProduk.*') ? 'active' : '' }}">
                             <i class="bi bi-list-ul nav-icon"></i>
                             <p>Kategori</p>
                         </a>
@@ -59,16 +73,17 @@
                     <!-- Produk -->
                     <li class="nav-item">
                         <a href="{{ route('master.data.produk.index') }}"
-                            class="nav-link {{ request()->routeIs('master.data.produk.index') ? 'active' : '' }}">
+                            class="nav-link {{ request()->routeIs('master.data.produk.*') ? 'active' : '' }}">
                             <i class="bi bi-box nav-icon"></i>
                             <p>Produk</p>
                         </a>
+
                     </li>
 
                     <!-- User -->
                     <li class="nav-item">
                         <a href="{{ route('master.data.user.index') }}"
-                            class="nav-link {{ request()->routeIs('master.data.user.index') ? 'active' : '' }}">
+                            class="nav-link {{ request()->routeIs('master.data.user.*') ? 'active' : '' }}">
                             <i class="bi bi-person-lines-fill"></i>
                             <p>Manajemen Pengguna</p>
                         </a>

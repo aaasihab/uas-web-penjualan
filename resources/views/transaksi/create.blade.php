@@ -29,6 +29,11 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Detail Produk & Transaksi</h3>
+                        <div class="card-tools">
+                            <a href="{{ route('dashboard') }}" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('master.data.transaksi.store', $produks->id_produk) }}" method="POST">
@@ -78,7 +83,7 @@
                                         <label for="jumlah">Jumlah Yang Akan Dibeli</label>
                                         <input type="number" id="jumlah" name="jumlah"
                                             class="form-control @error('jumlah') is-invalid @enderror"
-                                            value="{{ old('jumlah') }}" required min="1" max="{{ $produks->stok }}">
+                                            value="{{ old('jumlah') }}">
                                         @error('jumlah')
                                             <div class="invalid-feedback">
                                                 {{ $message }}
@@ -89,10 +94,13 @@
                                     <!-- Submit Button -->
                                     <div class="form-group">
                                         <button type="submit" class="btn btn-primary">
-                                            Masukkan Keranjang
+                                            <i class="bi bi-cart-plus"></i> Masukkan Keranjang
                                         </button>
-                                        <a href="{{ route('dashboard') }}" class="btn btn-secondary">Batal</a>
+                                        <a href="{{ route('dashboard') }}" class="btn btn-secondary">
+                                            <i class="bi bi-x-circle"></i> Batal
+                                        </a>
                                     </div>
+
                                 </div>
                             </div>
                         </form>

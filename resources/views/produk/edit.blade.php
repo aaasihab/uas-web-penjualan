@@ -29,10 +29,12 @@
             <div class="container-fluid">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Form Edit Produk</h3>
-                        <a href="{{ route('master.data.produk.index') }}" class="btn btn-secondary btn-sm">
-                            <i class="fas fa-arrow-left"></i> Kembali
-                        </a>
+                        <h3 class="card-title">Edit Data Produk</h3>
+                        <div class="card-tools">
+                            <a href="{{ route('master.data.produk.index') }}" class="btn btn-secondary btn-sm">
+                                <i class="fas fa-arrow-left"></i> Kembali
+                            </a>
+                        </div>
                     </div>
                     <div class="card-body">
                         <form action="{{ route('master.data.produk.update', $produk->id_produk) }}" method="POST"

@@ -1,5 +1,6 @@
-<footer class="main-footer text-center">
-    <strong>Copyright &copy; 2025 <a href="https://www.instagram.com/aaasihab/">Ahmad Sihabillah</a>.</strong>
+<footer class="main-footer bg-lightblue text-center">
+    Copyright &copy; 2025
+    <strong><a href="https://www.instagram.com/aaasihab/" class="text-white">Ahmad Sihabillah</a>.</strong>
     All rights reserved.
 </footer>
 
