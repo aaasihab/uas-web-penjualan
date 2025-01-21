@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
                             <li class="breadcrumb-item active">Produk</li>
                         </ol>
                     </div>
@@ -31,13 +31,13 @@
                         <h3 class="card-title">Daftar Produk</h3>
                         <div class="card-tools">
                             <a href="{{ route('master.data.produk.create') }}" class="btn btn-primary btn-sm">
-                                <i class="fas fa-plus"></i> Tambah Produk
+                                <i class="fas fa-cart-plus"></i> Tambah Produk
                             </a>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover">
+                            <table class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th style="width: 5%;">No</th>

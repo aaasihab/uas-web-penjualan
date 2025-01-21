@@ -19,6 +19,7 @@
 
         /* Media query untuk ukuran layar lebih kecil dari 768px (mobile) */
         @media (max-width: 768px) {
+
             table td,
             table th {
                 font-size: 0.875rem;
@@ -28,35 +29,34 @@
 @endsection
 
 @section('content')
-<div class="content-wrapper">
-    <!-- Content Header -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">Pesanan Selesai</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
-                        <li class="breadcrumb-item active">Pesanan Selesai</li>
-                    </ol>
+    <div class="content-wrapper">
+        <!-- Content Header -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1 class="m-0">Pesanan Selesai</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
+                            <li class="breadcrumb-item active">Pesanan Selesai</li>
+                        </ol>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Main Content -->
-    <section class="content">
-        <div class="container-fluid">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Daftar Riwayat Pembayaran</h3>
-                </div>
-                <div class="card-body">
-                    <!-- Tabel Daftar Pembayaran -->
-                    <div class="table-responsive">
-                        <table class="table table-striped table-hover">
+        <!-- Main Content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Daftar Riwayat Pembayaran</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Tabel Daftar Pembayaran -->
+                        <table id="pembayaran-table" class="table table-striped table-hover mt-3">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -84,13 +84,20 @@
                         </table>
                     </div>
                 </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
 @endsection
 
 @section('this-page-scripts')
     <script>
-        // Tambahkan JavaScript atau alert SweetAlert jika diperlukan
+        $(function() {
+            $("#pembayaran-table").DataTable({
+                "responsive": true,
+                "searching": false,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["excel", "pdf", "print", ]
+            }).buttons().container().appendTo('#pembayaran-table_wrapper .col-md-6:eq(0)');
+        });
     </script>
 @endsection

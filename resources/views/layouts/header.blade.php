@@ -1,5 +1,5 @@
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-lightblue navbar-dark">
+<nav class="main-header navbar navbar-expand navbar-fixed navbar-lightblue navbar-dark">
     <!-- Left navbar links -->
     <ul class="navbar-nav flex-row">
         <li class="nav-item">
@@ -13,7 +13,7 @@
     </ul>
 
     <!-- Right-side Header Section with User Name and Icon -->
-    <ul class="navbar-nav ms-auto me-4 flex-row username-text">
+    <ul class="navbar-nav ms-auto flex-row username-text">
         @auth
             <li class="nav-item">
                 <span class="nav-link text-white px-0">
@@ -23,24 +23,26 @@
 
             <!-- Dropdown for Settings and Logout -->
             <li class="nav-item dropdown">
-                <a href="#" class="nav-link text-white" data-toggle="dropdown" aria-haspopup="true"
+                <a href="#" class="nav-link text-white dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
-                    <i class="bi bi-door-open"></i>
+                    <i class="fas fa-user-circle"></i> <!-- Icon user circle -->
                 </a>
-                <div class="dropdown-menu dropdown-menu-right">
+                <div class="dropdown-menu dropdown-menu-right shadow">
                     <!-- Settings Button -->
-                    <a href="{{ route('profile.index') }}" class="dropdown-item">
-                        <i class="bi bi-gear"></i> Pengaturan
+                    <a href="{{ route('profile.index') }}" class="dropdown-item text-dark">
+                        <i class="fas fa-cogs"></i> Pengaturan
                     </a>
+                    <div class="dropdown-divider"></div>
                     <!-- Logout Button -->
-                    <form action="{{ route('logout') }}" method="POST" class="dropdown-item p-0">
+                    <form action="{{ route('logout') }}" method="POST" class="m-0 p-0">
                         @csrf
-                        <button type="submit" class="btn btn-link w-100 text-left text-dark">
-                            <i class="bi bi-box-arrow-right"></i> Keluar
+                        <button type="submit" class="dropdown-item text-danger">
+                            <i class="fas fa-sign-out-alt"></i> Keluar
                         </button>
                     </form>
                 </div>
             </li>
+
         @endauth
     </ul>
 </nav>

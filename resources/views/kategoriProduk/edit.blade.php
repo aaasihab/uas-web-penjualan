@@ -15,7 +15,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
                             <li class="breadcrumb-item"><a href="{{ route('master.data.kategoriProduk.index') }}">Kategori
                                     Produk</a></li>
                             <li class="breadcrumb-item active">Edit</li>
@@ -92,7 +92,7 @@
                                     <i class="fas fa-save"></i> Perbarui
                                 </button>
                                 <a href="{{ route('master.data.kategoriProduk.index') }}" class="btn btn-secondary">
-                                    <i class="fas fa-times">Batal</i>
+                                    <i class="fas fa-times"></i> Batal
                                 </a>
                             </div>
                         </form>

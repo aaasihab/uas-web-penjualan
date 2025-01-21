@@ -14,7 +14,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
                             <li class="breadcrumb-item active">Kategori Produk</li>
                         </ol>
                     </div>
@@ -30,7 +30,7 @@
                         <h3 class="card-title">Daftar Kategori Produk</h3>
                         <div class="card-tools">
                             <a href="{{ route('master.data.kategoriProduk.create') }}" class="btn btn-primary btn-sm">
-                                <i class="fas fa-plus"></i> Tambah
+                                <i class="fas fa-folder-plus"></i> Tambah Kategori
                             </a>
                         </div>
                     </div>

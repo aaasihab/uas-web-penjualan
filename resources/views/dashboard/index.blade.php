@@ -64,13 +64,13 @@
             color: #777;
         }
 
-        .cart-icon {
+        .bi-cart-plus {
             font-size: 20px;
             color: #3c8dbc;
             cursor: pointer;
         }
 
-        .cart-icon:hover {
+        .bi-cart-plus:hover {
             color: #ff6600;
         }
 
@@ -120,12 +120,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Selamat Berbelanja {{ Auth::user()->name ?? 'Pelanggan' }}!</h1>
+                        <h1 class="m-0">Beranda</h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
-                            <li class="breadcrumb-item active"></li>
+                            <li class="breadcrumb-item active">Beranda</></li>
+                            <li class="breadcrumb-item "></li>
                         </ol>
                     </div>
                 </div>
@@ -143,7 +143,7 @@
                             <div class="product-actions">
                                 <div class="product-category">{{ $produk->kategoriProduk->nama }}</div>
                                 <a href="{{ route('master.data.transaksi.create', ['produk' => $produk->id_produk]) }}">
-                                    <i class="bi bi-cart cart-icon"></i>
+                                    <i class="bi bi-cart-plus"></i>
                                 </a>
                             </div>
                         </div>

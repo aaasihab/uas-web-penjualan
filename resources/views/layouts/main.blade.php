@@ -4,13 +4,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Toserba Berkah Abadi</title>
+    <title>Toserba</title>
     @include('layouts.styles')
 
     @yield('this-page-style')
 </head>
 
-<body class="hold-transition sidebar-mini sidebar-collapse layout-fixed">
+<body class="hold-transition sidebar-mini sidebar-collapse layout-navbar-fixed layout-fixed">
     <div class="wrapper">
         {{-- untuk header --}}
         @include('layouts.header')

@@ -2,9 +2,9 @@
 <aside class="main-sidebar sidebar-dark-lightblue elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('dashboard') }}" class="brand-link">
-        <img src="{{ asset('assets/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+        <img src="{{ asset('assets/img/sihab.jpg') }}" alt="profil"
             class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">Toserba Barokah</span>
+        <span class="brand-text font-weight-light">Toserba</span>
     </a>
 
     <!-- Sidebar -->
@@ -18,7 +18,7 @@
                     <a href="{{ route('dashboard') }}"
                         class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-houses-fill"></i>
-                        <p>Dasbor</p>
+                        <p>Beranda</p>
                     </a>
                 </li>
 
@@ -70,7 +70,7 @@
                         <a href="{{ route('master.data.user.index') }}"
                             class="nav-link {{ request()->routeIs('master.data.user.index') ? 'active' : '' }}">
                             <i class="bi bi-person-lines-fill"></i>
-                            <p>User</p>
+                            <p>Manajemen Pengguna</p>
                         </a>
                     </li>
                 @endif

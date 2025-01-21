@@ -14,7 +14,7 @@
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
                             <li class="breadcrumb-item active">Daftar Transaksi</li>
                         </ol>
                     </div>
@@ -29,8 +29,8 @@
                     <div class="card-header">
                         <h3 class="card-title">Daftar Riwayat Transaksi</h3>
                     </div>
-                    <div class="card-body table-responsive">
-                        <table class="table table-striped table-bordered">
+                    <div class="card-body">
+                        <table id="transaction-table" class="table table-striped table-bordered mt-3">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -77,6 +77,7 @@
                                     </tr>
                                 @endforeach
                             </tbody>
+                            <tfooter>
                         </table>
                     </div>
                 </div>
@@ -88,6 +89,16 @@
 
 @section('this-page-scripts')
     <script>
+        $(function() {
+            $("#transaction-table").DataTable({
+                "responsive": true,
+                "searching": false,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["excel", "pdf", "print",]
+            }).buttons().container().appendTo('#transaction-table_wrapper .col-md-6:eq(0)');
+        });
+
         function confirmCancel(id) {
             Swal.fire({
                 title: "Apakah Anda yakin?",

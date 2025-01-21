@@ -5,63 +5,92 @@
 @endsection
 
 @section('content')
-    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">User</h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
-                <!-- Tombol Tambah menggunakan tag a -->
-                <a href="{{ route('master.data.user.create') }}" class="btn btn-primary" role="button">Tambah</a>
+    <main class="content-wrapper">
+        <!-- Header -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Manajemen Pengguna</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Beranda</a></li>
+                            <li class="breadcrumb-item active">Manajemen Pengguna</li>
+                        </ol>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="container mt-4">
-            <!-- Tabel Daftar User -->
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">No</th>
-                        <th scope="col">Nama</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Role</th>
-                        <th scope="col">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($users as $user)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>
-                                @if ($user->role == 'admin')
-                                    <span class="badge bg-success">{{ $user->role }}</span>
-                                @else
-                                    <span class="badge bg-primary">{{ $user->role }}</span>
-                                @endif
-                            </td>
-                            <td>
-                                <!-- Tombol Edit -->
-                                <a href="{{ route('master.data.user.edit', $user->id) }}"
-                                    class="btn btn-sm btn-outline-secondary">
-                                    Edit
-                                </a>
-                                <!-- Tombol Hapus -->
-                                <form id="delete-user-form-{{ $user->id }}"
-                                    action="{{ route('master.data.user.destroy', $user->id) }}" method="POST"
-                                    style="display:inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-sm btn-outline-danger"
-                                        onclick="confirmDelete({{ $user->id }})">
-                                        Hapus
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+        </section>
+
+        <!-- Main Content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="card">
+                    <!-- Card Header -->
+                    <div class="card-header">
+                        <h3 class="card-title">Daftar Pengguna</h3>
+                        <div class="card-tools">
+                            <!-- Tombol Tambah -->
+                            <a href="{{ route('master.data.user.create') }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-user-plus"></i> Tambah
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 5%;">No</th>
+                                        <th>Nama</th>
+                                        <th>Email</th>
+                                        <th>Role</th>
+                                        <th style="width: 15%;">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($users as $user)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>
+                                                @if ($user->role == 'admin')
+                                                    <span class="badge bg-olive">{{ ucfirst($user->role) }}</span>
+                                                @else
+                                                    <span class="badge bg-warning">{{ ucfirst($user->role) }}</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <!-- Tombol Edit -->
+                                                <a href="{{ route('master.data.user.edit', $user->id) }}"
+                                                    class="btn btn-sm btn-outline-secondary">
+                                                    <i class="fas fa-edit"></i> Edit
+                                                </a>
+                                                <!-- Tombol Hapus -->
+                                                <button type="button" class="btn btn-sm btn-outline-danger"
+                                                    onclick="confirmDelete({{ $user->id }})">
+                                                    <i class="fas fa-trash"></i> Hapus
+                                                </button>
+                                                <form id="delete-user-form-{{ $user->id }}"
+                                                    action="{{ route('master.data.user.destroy', $user->id) }}"
+                                                    method="POST" style="display:none;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 @endsection
 
