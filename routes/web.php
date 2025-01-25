@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\ErrorController;
 use App\Http\Controllers\KategoriProdukController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\ProdukController;
@@ -15,7 +16,8 @@ use App\Http\Controllers\UserController;
 Route::get('login', [AuthController::class, 'loginForm'])->name('login.form');
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
-Route::get('unauthorized', [AuthController::class, 'unauthorized'])->name('unauthorized');
+Route::get('unauthorized', [AuthController::class, 'unauthorized'])->middleware('auth')->name('unauthorized');
+Route::get('/notFound', [ErrorController::class, 'notFound'])->name('notFound');
 
 Route::get('register', [AuthController::class, 'registerForm'])->name('register.form'); // Menampilkan form register
 Route::post('register', [AuthController::class, 'register'])->name('register'); // Memproses registrasi

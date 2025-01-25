@@ -14,7 +14,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column gap-1" data-widget="treeview" role="menu"
                 data-accordion="false">
 
-                @if (auth()->user()->role == 'admin')
+                @if (auth()->check() && auth()->user()->role == 'admin')
                     <!-- Dashboard Admin Menu -->
                     <li class="nav-item">
                         <a href="{{ route('master.data.admin') }}"
@@ -43,7 +43,7 @@
                         class="nav-link {{ request()->routeIs('master.data.transaksi.index') ? 'active' : '' }}">
                         <i class="bi bi-cart4 nav-icon"></i>
                         <p>
-                            {{ auth()->user()->role == 'admin' ? 'Daftar Transaksi' : 'Riwayat Transaksi' }}
+                            {{ auth()->check() && auth()->user()->role == 'admin' ? 'Daftar Transaksi' : 'Riwayat Transaksi' }}
                         </p>
                     </a>
                 </li>
@@ -54,13 +54,13 @@
                         class="nav-link {{ request()->routeIs('master.data.pembayaran.index') ? 'active' : '' }}">
                         <i class="bi bi-check-circle nav-icon"></i>
                         <p>
-                            {{ auth()->user()->role == 'admin' ? 'Daftar Penjualan' : 'Riwayat Pembayaran' }}
+                            {{ auth()->check() && auth()->user()->role == 'admin' ? 'Daftar Penjualan' : 'Riwayat Pembayaran' }}
                         </p>
                     </a>
                 </li>
 
                 <!-- Admin-Only Links -->
-                @if (auth()->user()->role == 'admin')
+                @if (auth()->check() && auth()->user()->role == 'admin')
                     <!-- Kategori -->
                     <li class="nav-item">
                         <a href="{{ route('master.data.kategoriProduk.index') }}"

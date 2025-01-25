@@ -50,9 +50,6 @@
                                                 <th>Nama</th>
                                                 <th>Email</th>
                                                 <th>Role</th>
-                                                <th>Role</th>
-                                                <th>Role</th>
-                                                <th>Role</th>
                                                 <th style="width: 15%;">Aksi</th>
                                             </tr>
                                         </thead>
@@ -69,9 +66,6 @@
                                                             <span class="badge bg-warning">{{ ucfirst($user->role) }}</span>
                                                         @endif
                                                     </td>
-                                                    <td>apa</td>
-                                                    <td>apa</td>
-                                                    <td>apa</td>
                                                     <td>
                                                         <!-- Tombol Edit -->
                                                         <a href="{{ route('master.data.user.edit', $user->id) }}"
