@@ -12,6 +12,7 @@ use App\Http\Controllers\UserController;
 
 // routes/web.php
 
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('login', [AuthController::class, 'loginForm'])->name('login.form');
 Route::post('login', [AuthController::class, 'login'])->name('login');
@@ -22,7 +23,7 @@ Route::get('/notFound', [ErrorController::class, 'notFound'])->name('notFound');
 Route::get('register', [AuthController::class, 'registerForm'])->name('register.form'); // Menampilkan form register
 Route::post('register', [AuthController::class, 'register'])->name('register'); // Memproses registrasi
 
-Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
+// Route::get('/', [DashboardController::class, 'index'])->middleware('auth')->name('dashboard');
 
 Route::middleware(['auth'])->prefix('master-data')->name('master.data.')->group(function () {
     Route::get('/admin', [DashboardController::class, 'admin'])

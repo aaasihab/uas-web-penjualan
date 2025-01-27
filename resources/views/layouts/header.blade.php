@@ -12,7 +12,7 @@
         </li>
     </ul>
 
-    <!-- Right-side Header Section with User Name and Icon -->
+    <!-- Right-side Header Section -->
     <ul class="navbar-nav ms-auto flex-row username-text">
         @auth
             <li class="nav-item">
@@ -44,7 +44,18 @@
                     </form>
                 </div>
             </li>
-
+        @else
+            <li class="nav-item me-3">
+                <span class="nav-link text-white px-0">
+                    Hai, Tamu <!-- Display user name -->
+                </span>
+            </li>
+            <!-- Login Button for Guest -->
+            <li class="nav-item me-3">
+                <a href="{{ route('login') }}" class="btn btn-light text-dark">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+            </li>
         @endauth
     </ul>
 </nav>

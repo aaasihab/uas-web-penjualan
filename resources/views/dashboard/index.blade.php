@@ -147,8 +147,8 @@
                                         <div class="product-name text-center">{{ $produk->nama }}</div>
                                         <div class="product-actions">
                                             <div class="product-category">{{ $produk->kategoriProduk->nama }}</div>
-                                            <a
-                                                href="{{ route('master.data.transaksi.create', ['produk' => $produk->id_produk]) }}">
+                                            <a href="{{ route('master.data.transaksi.create', ['produk' => $produk->id_produk]) }}"
+                                                onclick="{{ auth()->check() ? '' : 'return confirmLogin(event);' }}">
                                                 <i class="bi bi-cart-plus"></i>
                                             </a>
                                         </div>
@@ -167,6 +167,23 @@
     {{-- untuk scripts khusus halaman tertentu --}}
     @section('this-page-scripts')
         <script>
+            function confirmLogin(event) {
+                event.preventDefault(); // Mencegah navigasi langsung
+                Swal.fire({
+                    title: 'Anda belum login',
+                    text: "Silakan login terlebih dahulu untuk bisa berbelanja di toko ini.",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Login Sekarang',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Arahkan ke halaman login
+                        window.location.href = "{{ route('login') }}";
+                    }
+                });
+            }
+
             @if (session('login-success'))
                 const Toast = Swal.mixin({
                     toast: true,
