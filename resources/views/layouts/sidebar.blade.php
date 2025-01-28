@@ -25,6 +25,16 @@
 
                 @auth
                     <!-- Data Master Section -->
+                    <!-- Dashboard Menu Admin -->
+                    <li class="nav-item user-panel">
+                        <a href="{{ route('master.data.admin') }}"
+                            class="nav-link {{ request()->routeIs('master.data.admin') ? 'active' : '' }}"
+                            onclick="{{ auth()->check() ? '' : 'return confirmLogin(event);' }}">
+                            <i class="bi bi-speedometer"></i>
+                            <p>Beranda Admin</p>
+                        </a>
+                    </li>
+
                     <li class="nav-header user-panel">DATA MASTER</li>
 
                     <!-- Daftar Transaksi -->
