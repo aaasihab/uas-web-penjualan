@@ -28,7 +28,7 @@
                     <div class="card-header">
                         <h3 class="card-title">Perbarui Profil Anda</h3>
                         <div class="card-tools">
-                            <a href="{{ route('master.data.produk.index') }}" class="btn btn-secondary btn-sm">
+                            <a href="{{ route('dashboard') }}" class="btn btn-secondary btn-sm">
                                 <i class="fas fa-arrow-left"></i> Kembali
                             </a>
                         </div>

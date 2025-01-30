@@ -11,4 +11,9 @@ class ErrorController extends Controller
         return view('errors.404');
         // return response()->view('errors.404', [], 404);
     }
+
+    public function methodNotAllowed()
+    {
+        return view('errors.405');
+    }
 }

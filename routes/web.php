@@ -18,7 +18,10 @@ Route::get('login', [AuthController::class, 'loginForm'])->name('login.form');
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('unauthorized', [AuthController::class, 'unauthorized'])->middleware('auth')->name('unauthorized');
+
+// halaman error
 Route::get('/notFound', [ErrorController::class, 'notFound'])->name('notFound');
+Route::get('/methodNotAllowed', [ErrorController::class, 'methodNotAllowed'])->name('methodNotAllowed');
 
 Route::get('register', [AuthController::class, 'registerForm'])->name('register.form'); // Menampilkan form register
 Route::post('register', [AuthController::class, 'register'])->name('register'); // Memproses registrasi
