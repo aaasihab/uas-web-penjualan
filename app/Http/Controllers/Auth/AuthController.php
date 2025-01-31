@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Str;
 use Validator;
+use Illuminate\Support\Facades\Cache;
 
 class AuthController extends Controller
 {
@@ -113,60 +114,70 @@ class AuthController extends Controller
         return view('auth.loginForm');
     }
 
+
+    public function blocked()
+    {
+        $key = 'login-attempts:' . request()->ip() . ':' . request()->header('User-Agent');
+        $blockedUntil = Cache::get("blocked:$key");
+
+        if (!$blockedUntil || now()->greaterThan($blockedUntil)) {
+            return redirect()->route('login'); // Jika blokir habis, kembali ke login
+        }
+
+        $remainingTime = now()->diffInSeconds($blockedUntil);
+
+        return view('auth.blocked', compact('remainingTime'));
+    }
+
     // Menangani proses login.
     public function login(Request $request)
     {
-        // Dapatkan Device ID dari session (jika tidak ada, buat baru)
-        if (!$request->session()->has('device_id')) {
-            $request->session()->put('device_id', Str::uuid()->toString());
+        // Buat unique key berdasarkan IP + User-Agent (tanpa session)
+        $key = 'login-attempts:' . $request->ip() . ':' . $request->header('User-Agent');
+
+        // Cek apakah pengguna sudah diblokir
+        $blockedUntil = Cache::get("blocked:$key");
+
+        if ($blockedUntil && now()->lessThan($blockedUntil)) {
+            $remainingTime = now()->diffInSeconds($blockedUntil);
+            return redirect()->route('blocked')->with('remainingTime', $remainingTime);
         }
-        $deviceId = $request->session()->get('device_id');
-
-        // Buat rate limiter key dengan kombinasi IP + User-Agent + Device ID
-        $key = 'login-attempts:' . $request->ip() . ':' . $request->header('User-Agent') . ':' . $deviceId;
-
-        // Jika sudah melebihi batas percobaan login
-        if (RateLimiter::tooManyAttempts($key, 2)) {
-            $blockedUntil = now()->addSeconds(RateLimiter::availableIn($key)); // Hitung kapan blokir berakhir
-            session(['blocked_until' => $blockedUntil]); // Simpan di session
-
-            return redirect()->route('blocked');
-        }
-
 
         // Validasi input
         $validated = $request->validate([
-            'email' => 'required|email|max:30',
-            'password' => 'required|min:8|max:30',
-        ], [
-            'email.required' => 'Email wajib diisi',
-            'email.email' => 'Format email tidak valid',
-            'email.max' => 'Email tidak boleh lebih dari 30 karakter',
-            'password.required' => 'Password wajib diisi',
-            'password.min' => 'Password harus terdiri dari minimal 8 karakter',
-            'password.max' => 'Password tidak boleh lebih dari 30 karakter',
+            'email' => 'required|email|max:50',
+            'password' => 'required|min:8|max:50',
         ]);
 
-        // Cek apakah email terdaftar
+        // Cek apakah email ada di database
         $user = User::where('email', $validated['email'])->first();
 
-        if (!$user || !Hash::check($validated['password'], $user->password)) {
-            RateLimiter::hit($key, 120); // Tambahkan hitungan rate limiter, reset dalam 60 detik
-            $attemptsLeft = RateLimiter::remaining($key, 2); // Hitung percobaan tersisa
+        if (!$user || !Auth::attempt($request->only('email', 'password'))) {
+            // Tambah hitungan percobaan login
+            RateLimiter::hit($key, 120); // Reset dalam 120 detik
 
+            // Jika sudah lebih dari 3 kali gagal, blokir selama 5 menit
+            if (RateLimiter::tooManyAttempts($key, 3)) {
+                $blockedUntil = now()->addMinutes(5);
+                Cache::put("blocked:$key", $blockedUntil, 300); // Simpan blokir selama 5 menit
+
+                return redirect()->route('blocked')->with('remainingTime', 300);
+            }
+
+            // Hitung percobaan tersisa
+            $attemptsLeft = RateLimiter::remaining($key, 3);
             return back()->with('error', "Email atau password salah. Percobaan tersisa: $attemptsLeft.");
         }
 
-        // Jika berhasil login, reset rate limiter
-        Auth::attempt($request->only(['email', 'password']));
+        // Jika login berhasil, reset rate limiter dan hapus blokir dari cache
+        RateLimiter::clear($key);
+        Cache::forget("blocked:$key");
+
+        // Regenerasi session setelah login sukses
         $request->session()->regenerate();
-        RateLimiter::clear($key); // Hapus hitungan percobaan
 
-        return redirect()->intended('/')->with('login-success', 'Login berhasil.');
+        return redirect()->intended('/')->with('success', 'Login berhasil.');
     }
-
-
-
 
     public function logout(Request $request)
     {

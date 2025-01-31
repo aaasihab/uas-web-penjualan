@@ -20,7 +20,7 @@ Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('unauthorized', [AuthController::class, 'unauthorized'])->middleware('auth')->name('unauthorized');
 
 // halaman error
-Route::get('/blocked', [ErrorController::class, 'blocked'])->name('blocked');
+Route::get('/blocked', [AuthController::class, 'blocked'])->name('blocked');
 Route::get('/notFound', [ErrorController::class, 'notFound'])->name('notFound');
 Route::get('/methodNotAllowed', [ErrorController::class, 'methodNotAllowed'])->name('methodNotAllowed');
 
