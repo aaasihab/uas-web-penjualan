@@ -237,6 +237,15 @@
             });
         @endif
 
+        @if (session('login-error'))
+            Swal.fire({
+                title: "Login Gagal!",
+                text: "{{ session('error') }}",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+        @endif
+
         @if (session('error'))
             Swal.fire({
                 title: "Login Gagal!",

@@ -7,6 +7,8 @@ use App\Models\User;
 use Auth;
 use Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
+use Str;
 use Validator;
 
 class AuthController extends Controller
@@ -112,13 +114,30 @@ class AuthController extends Controller
     }
 
     // Menangani proses login.
-
-    public function Login(Request $request)
+    public function login(Request $request)
     {
-        // Validasi input dengan aturan dan pesan kustom
+        // Dapatkan Device ID dari session (jika tidak ada, buat baru)
+        if (!$request->session()->has('device_id')) {
+            $request->session()->put('device_id', Str::uuid()->toString());
+        }
+        $deviceId = $request->session()->get('device_id');
+
+        // Buat rate limiter key dengan kombinasi IP + User-Agent + Device ID
+        $key = 'login-attempts:' . $request->ip() . ':' . $request->header('User-Agent') . ':' . $deviceId;
+
+        // Jika sudah melebihi batas percobaan login
+        if (RateLimiter::tooManyAttempts($key, 2)) {
+            $blockedUntil = now()->addSeconds(RateLimiter::availableIn($key)); // Hitung kapan blokir berakhir
+            session(['blocked_until' => $blockedUntil]); // Simpan di session
+
+            return redirect()->route('blocked');
+        }
+
+
+        // Validasi input
         $validated = $request->validate([
-            'email' => 'required|max:30',
-            'password' => 'required|min:8|max:8',
+            'email' => 'required|email|max:30',
+            'password' => 'required|min:8|max:30',
         ], [
             'email.required' => 'Email wajib diisi',
             'email.email' => 'Format email tidak valid',
@@ -128,25 +147,25 @@ class AuthController extends Controller
             'password.max' => 'Password tidak boleh lebih dari 30 karakter',
         ]);
 
-        $message = null;
-
-        // Periksa apakah email terdaftar
+        // Cek apakah email terdaftar
         $user = User::where('email', $validated['email'])->first();
-        if (!$user) {
-            $message = 'Email tidak terdaftar.';
-        } elseif (!Hash::check($validated['password'], $user->password)) {
-            $message = 'Password yang dimasukkan salah.';
-        } elseif (Auth::attempt($validated)) {
-            // Login berhasil
-            $request->session()->regenerate();
-            return redirect()->intended('/')->with('login-success', 'Login berhasil.');
-        } else {
-            $message = 'Login gagal. Silakan coba lagi.';
+
+        if (!$user || !Hash::check($validated['password'], $user->password)) {
+            RateLimiter::hit($key, 120); // Tambahkan hitungan rate limiter, reset dalam 60 detik
+            $attemptsLeft = RateLimiter::remaining($key, 2); // Hitung percobaan tersisa
+
+            return back()->with('error', "Email atau password salah. Percobaan tersisa: $attemptsLeft.");
         }
 
-        // Mengembalikan respons untuk semua kondisi error
-        return back()->with('error', $message)->withInput();
+        // Jika berhasil login, reset rate limiter
+        Auth::attempt($request->only(['email', 'password']));
+        $request->session()->regenerate();
+        RateLimiter::clear($key); // Hapus hitungan percobaan
+
+        return redirect()->intended('/')->with('login-success', 'Login berhasil.');
     }
+
+
 
 
     public function logout(Request $request)
