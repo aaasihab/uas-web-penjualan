@@ -147,7 +147,15 @@ class AuthController extends Controller
         $validated = $request->validate([
             'email' => 'required|email|max:50',
             'password' => 'required|min:8|max:50',
+        ], [
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'email.max' => 'Email tidak boleh lebih dari 50 karakter.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal harus 8 karakter.',
+            'password.max' => 'Password tidak boleh lebih dari 50 karakter.',
         ]);
+
 
         // Cek apakah email ada di database
         $user = User::where('email', $validated['email'])->first();
@@ -157,15 +165,15 @@ class AuthController extends Controller
             RateLimiter::hit($key, 120); // Reset dalam 120 detik
 
             // Jika sudah lebih dari 3 kali gagal, blokir selama 5 menit
-            if (RateLimiter::tooManyAttempts($key, 3)) {
-                $blockedUntil = now()->addMinutes(5);
-                Cache::put("blocked:$key", $blockedUntil, 300); // Simpan blokir selama 5 menit
+            if (RateLimiter::tooManyAttempts($key, 5)) {
+                $blockedUntil = now()->addMinutes(60);
+                Cache::put("blocked:$key", $blockedUntil, 60); // Simpan blokir selama 5 menit
 
                 return redirect()->route('blocked')->with('remainingTime', 300);
             }
 
             // Hitung percobaan tersisa
-            $attemptsLeft = RateLimiter::remaining($key, 3);
+            $attemptsLeft = RateLimiter::remaining($key, 5);
             return back()->with('error', "Email atau password salah. Percobaan tersisa: $attemptsLeft.");
         }
 

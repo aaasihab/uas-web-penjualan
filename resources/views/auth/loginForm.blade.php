@@ -193,7 +193,7 @@
             <!-- Input Email -->
             <label for="email">Email</label>
             <input type="email" id="email" name="email" class="@error('email') is-invalid @enderror"
-                placeholder="Masukkan Email" value="{{ old('email') }}">
+                placeholder="Masukkan Email" value="{{ old('email') }}" required>
             <div class="invalid-feedback">
                 @error('email')
                     {{ $message }}
@@ -203,7 +203,7 @@
             <!-- Input Password -->
             <label for="password">Password</label>
             <input type="password" id="password" name="password" class="@error('password') is-invalid @enderror"
-                placeholder="Masukkan Password">
+                placeholder="Masukkan Password" required>
             <div class="invalid-feedback">
                 @error('password')
                     {{ $message }}
