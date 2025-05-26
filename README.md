@@ -49,13 +49,19 @@ Buat database di MySQL sesuai nama di file `.env`.
 
 ### 7. Jalankan Migrasi dan seeder 
 
-Jika tersedia migrasi database:
-
 ```bash
 php artisan migrate --seed
 ```
 
-### 8. Jalankan Server
+### 8. Jalankan symbolic link untuk gambar 
+
+
+```bash
+php artisan storage:link
+```
+
+
+### 9. Jalankan Server
 
 ```bash
 php artisan serve
@@ -65,7 +71,7 @@ Aplikasi akan berjalan di: [http://localhost:8000](http://localhost:8000)
 
 ### 9. Login ke halaman admin
 
-email : admin@admin.com
+email : admin@example.com
 password : admin123
 
 ## ✅ Selesai
