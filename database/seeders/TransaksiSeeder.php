@@ -22,16 +22,6 @@ class TransaksiSeeder extends Seeder
                 'updated_at' => Carbon::now()->subDays(3),
             ],
             [
-                'pelanggan_id' => 2,
-                'produk_id' => 2,
-                'tanggal_transaksi' => Carbon::now()->subDays(1),
-                'jumlah' => 5,
-                'total_harga' => 375000,
-                'status' => 'pending',
-                'created_at' => Carbon::now()->subDays(1),
-                'updated_at' => Carbon::now()->subDays(1),
-            ],
-            [
                 'pelanggan_id' => 1,
                 'produk_id' => 3,
                 'tanggal_transaksi' => Carbon::now(),

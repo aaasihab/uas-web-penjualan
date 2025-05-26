@@ -12,23 +12,17 @@ return new class extends Migration {
     {
         Schema::create('pembayaran', function (Blueprint $table) {
             $table->id('id_pembayaran');
-            $table->bigInteger('transaksi_id')->unsigned();
-            $table->decimal('total_pembayaran', 10, 2);
+            $table->foreignId('transaksi_id')
+                ->constrained('transaksi', 'id_transaksi')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
+            $table->integer('total_pembayaran');
+            $table->integer('sisa_kembalian')->default(0);
             $table->timestamp('waktu_pembayaran');
             $table->timestamps();
-
-            // Tambahkan foreign key
-            $table->foreign('transaksi_id')
-                ->references('id_transaksi')
-                ->on('transaksi')
-                ->onDelete('no action')
-                ->onUpdate('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down()
     {
         Schema::dropIfExists('pembayaran');

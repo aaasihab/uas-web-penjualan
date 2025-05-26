@@ -10,19 +10,15 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::table('produk', function (Blueprint $table) {
-            $table->enum('status', ['aktif', 'nonaktif'])->default('aktif')->after('harga');
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum('role', ['admin', 'pelanggan'])->after('password');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::table('produk', function (Blueprint $table) {
-            $table->dropColumn('status');
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('role');
         });
-
     }
 };

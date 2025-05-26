@@ -16,7 +16,7 @@ class ProdukSeeder extends Seeder
                 'deskripsi' => 'Televisi LED Samsung dengan layar 42 inch dan resolusi Full HD.',
                 'harga' => 4500000,
                 'stok' => 10,
-                'gambar' => 'tv_samsung_42.jpg',
+                'gambar' => '/public/assets/img/samsung.jpg',
                 'status' => 'aktif',
             ],
             [
@@ -25,7 +25,7 @@ class ProdukSeeder extends Seeder
                 'deskripsi' => 'Kaos polos warna hitam berbahan katun nyaman dipakai.',
                 'harga' => 75000,
                 'stok' => 50,
-                'gambar' => 'kaos_polos_hitam.jpg',
+                'gambar' => '/public/assets/img/kaos_hitam.jpg',
                 'status' => 'aktif',
             ],
             [
@@ -34,7 +34,7 @@ class ProdukSeeder extends Seeder
                 'deskripsi' => 'Keripik kentang rasa original, gurih dan renyah.',
                 'harga' => 15000,
                 'stok' => 100,
-                'gambar' => 'keripik_kentang.jpg',
+                'gambar' => '/public/assets/img/kentang.webp',
                 'status' => 'aktif',
             ],
             [
@@ -43,7 +43,7 @@ class ProdukSeeder extends Seeder
                 'deskripsi' => 'Set alat masak lengkap, termasuk panci, wajan, dan spatula.',
                 'harga' => 350000,
                 'stok' => 5,
-                'gambar' => 'alat_masak.jpg',
+                'gambar' => '/public/assets/img/alat_masak.jpg',
                 'status' => 'nonaktif',
             ],
         ]);

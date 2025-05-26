@@ -11,24 +11,20 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::create('transaksi', function (Blueprint $table) {
-            $table->id('id_transaksi'); // Primary key
-            $table->unsignedBigInteger('user_id'); // Foreign key
-            $table->foreignId('produk_id')->constrained('produk', 'id_produk')->onDelete('cascade');
+            $table->id('id_transaksi');
+            $table->unsignedBigInteger('pelanggan_id');
+            $table->unsignedBigInteger('produk_id');
             $table->date('tanggal_transaksi');
             $table->integer('jumlah');
-            $table->decimal('total_harga', 15, 2);
+            $table->bigInteger('total_harga');
+            $table->enum('status', ['pending', 'selesai', 'batal'])->default('pending');
             $table->timestamps();
 
-            // Foreign key constraint
-            $table->foreign('user_id')->references('id')->on('users')
-                ->onDelete('no action')
-                ->onUpdate('cascade');
+            $table->foreign('pelanggan_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('produk_id')->references('id_produk')->on('produk')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('transaksi');

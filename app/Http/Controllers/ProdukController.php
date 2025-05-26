@@ -29,7 +29,7 @@ class ProdukController extends Controller
             'deskripsi' => 'required|string|max:255',
             'harga' => 'required|numeric|min:0',
             'stok' => 'required|integer|min:0',
-            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'status' => 'required|in:aktif,nonaktif',
             'kategori_produk_id' => 'required|exists:kategori_produk,id_kategori_produk',
         ], [
@@ -79,7 +79,7 @@ class ProdukController extends Controller
                 }
             ],
             'kategori_produk_id' => 'required|exists:kategori_produk,id_kategori_produk',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ], [
             'nama.required' => 'Nama produk wajib diisi.',
             'nama.unique' => 'Nama produk sudah terdaftar.',

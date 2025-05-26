@@ -14,16 +14,21 @@ class UserAdminSeeder extends Seeder
      */
     public function run(): void
     {
-        // Cek apakah user admin sudah ada
-        $admin = User::where('email', 'admin@admin.com')->first();
-
-        if (!$admin) {
-            User::create([
+        User::insert([
+            [
+                'id' => 1,
                 'name' => 'Admin',
                 'email' => 'admin@admin.com',
-                'password' => Hash::make('admin123'), // ganti password sesuai kebutuhan
-                'role' => 'admin', // sesuaikan dengan kolom role di tabel users
-            ]);
-        }
+                'password' => Hash::make('admin123'),
+                'role' => 'admin',
+            ],
+            [
+                'id' => 2,
+                'name' => 'Pelanggan 1',
+                'email' => 'pelanggan1@pelanggan.com',
+                'password' => Hash::make('pelanggan1'),
+                'role' => 'pelanggan',
+            ],
+        ]);
     }
 }

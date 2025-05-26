@@ -20,7 +20,7 @@ class PembayaranSeeder extends Seeder
                 'updated_at' => Carbon::now()->subDays(2),
             ],
             [
-                'transaksi_id' => 3,
+                'transaksi_id' => 2,
                 'total_pembayaran' => 150000,
                 'sisa_kembalian' => 0,
                 'waktu_pembayaran' => Carbon::now(),
