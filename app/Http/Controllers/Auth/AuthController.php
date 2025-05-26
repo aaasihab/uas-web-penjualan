@@ -111,6 +111,11 @@ class AuthController extends Controller
 
     public function loginForm()
     {
+        $userCount = User::count();
+        if ($userCount === 0) {
+            return redirect()->route('register')->with('user_not_found', 'Belum ada akun, silakan daftar terlebih dahulu.');
+        }
+
         return view('auth.loginForm');
     }
 

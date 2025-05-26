@@ -186,9 +186,9 @@
                 <input type="text" id="name" name="name" class="@error('name') is-invalid @enderror"
                     placeholder="Masukkan Nama" value="{{ old('name') }}">
                 @error('name')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
                 @enderror
             </div>
 
@@ -197,9 +197,9 @@
                 <input type="email" id="email" name="email" class="@error('email') is-invalid @enderror"
                     placeholder="Masukkan Email" value="{{ old('email') }}">
                 @error('email')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
                 @enderror
             </div>
 
@@ -208,9 +208,9 @@
                 <input type="password" id="password" name="password" class="@error('password') is-invalid @enderror"
                     placeholder="Masukkan Password">
                 @error('password')
-                <div class="invalid-feedback">
-                    {{ $message }}
-                </div>
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
                 @enderror
             </div>
 
@@ -229,12 +229,21 @@
     @include('layouts.scripts')
     <script>
         @if (session('error'))
-        Swal.fire({
-            title: "Gagal!",
-            text: "{{ session('error') }}",
-            icon: "error",
-            confirmButtonText: "OK",
-        });
+            Swal.fire({
+                title: "Gagal!",
+                text: "{{ session('error') }}",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
+        @endif
+
+        @if (session('user_not_found'))
+            Swal.fire({
+                title: "Warning!",
+                text: "{{ session('user_not_found') }}",
+                icon: "error",
+                confirmButtonText: "OK",
+            });
         @endif
     </script>
     @yield('this-page-scripts')

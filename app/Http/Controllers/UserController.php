@@ -27,7 +27,7 @@ class UserController extends Controller
                 'name' => 'required|string|max:50',
                 'email' => 'required|string|email|max:255|unique:users,email',
                 'password' => 'required|string|min:6',
-                'role' => 'required|string|in:super_admin,admin,pelanggan',
+                'role' => 'required|string|in:admin,pelanggan',
             ],
             [
                 // Pesan kustom untuk validasi
