@@ -63,6 +63,10 @@ php artisan serve
 
 Aplikasi akan berjalan di: [http://localhost:8000](http://localhost:8000)
 
+### 9. Login ke halaman admin
+
+email : admin@admin.com
+password : admin123
 
 ## ✅ Selesai
 
