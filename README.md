@@ -7,8 +7,8 @@ Ini adalah project Laravel. Ikuti langkah-langkah berikut untuk meng-clone dan m
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/username/nama-project.git
-cd nama-project
+git clone https://github.com/aaasihab/uas-web-penjualan.git
+cd uas-web-penjualan
 ```
 
 ### 2. Install Dependency PHP
