@@ -45,7 +45,7 @@ php artisan key:generate
 
 ### 6. Buat Database
 
-Buat database di MySQL atau PostgreSQL sesuai nama di file `.env`.
+Buat database di MySQL sesuai nama di file `.env`.
 
 ### 7. Jalankan Migrasi dan seeder 
 
