@@ -63,20 +63,7 @@ php artisan serve
 
 Aplikasi akan berjalan di: [http://localhost:8000](http://localhost:8000)
 
----
-
-## ⚙️ (Opsional) Instalasi Frontend
-
-Jika project ini menggunakan Vite, Tailwind, atau framework frontend lainnya:
-
-```bash
-npm install
-npm run dev
-```
-
----
 
 ## ✅ Selesai
 
-Project Laravel Anda sekarang siap dijalankan di lokal. 🎉
 
