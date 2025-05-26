@@ -10,6 +10,10 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserAdminSeeder::class, // pastikan UserAdminSeeder sudah dibuat
+            KategoriProdukSeeder::class,
+            ProdukSeeder::class,
+            TransaksiSeeder::class,
+            PembayaranSeeder::class,
         ]);
     }
 }

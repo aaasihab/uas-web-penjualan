@@ -16,7 +16,6 @@ class DashboardController extends Controller
     public function index()
     {
         $produks = Produk::with('kategoriProduk')->where('status', 'aktif')->get();
-        ;
         return view('dashboard.index', compact('produks'));
     }
     public function admin()

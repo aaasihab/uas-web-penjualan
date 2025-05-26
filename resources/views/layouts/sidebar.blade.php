@@ -1,8 +1,9 @@
 <aside class="main-sidebar sidebar-dark-lightblue elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('dashboard') }}" class="brand-link">
-        <img src="{{ asset('assets/img/sihab.jpg') }}" alt="profil" class="brand-image img-circle elevation-3"
+        <img src="{{ asset('assets/img/person.jpeg') }}" alt="profil" class=" brand-image img-circle elevation-3"
             style="opacity: .8">
+        {{-- <i class="bi bi-person-circle brand-image img-circle elevation-3"></i> --}}
         <span class="brand-text font-weight-light">Toserba</span>
     </a>
 
