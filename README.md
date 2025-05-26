@@ -47,12 +47,12 @@ php artisan key:generate
 
 Buat database di MySQL atau PostgreSQL sesuai nama di file `.env`.
 
-### 7. Jalankan Migrasi
+### 7. Jalankan Migrasi dan seeder 
 
 Jika tersedia migrasi database:
 
 ```bash
-php artisan migrate
+php artisan migrate --seed
 ```
 
 ### 8. Jalankan Server
