@@ -21,13 +21,13 @@ class DashboardController extends Controller
     public function admin()
     {
         // Menghitung jumlah produk aktif
-        $jumlahProduk = Produk::where('status', 'aktif')->count();
+        $jumlahProduk = Produk::count();
 
         // Menghitung jumlah kategori
         $jumlahKategori = KategoriProduk::count();
 
         // Menghitung jumlah pendaftaran pengguna
-        $jumlahPengguna = User::count();
+        $jumlahPengguna = User::where('role', 'pelanggan')->count();
 
         // Menghitung jumlah transaksi yang berstatus "belum bayar" atau "dibatalkan"
         $jumlahTransaksi = Transaksi::whereIn('status', ['belum bayar', 'batal'])->count();

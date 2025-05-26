@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->date('tanggal_transaksi');
             $table->integer('jumlah');
             $table->bigInteger('total_harga');
-            $table->enum('status', ['pending', 'selesai', 'batal'])->default('pending');
+            $table->enum('status', ['belum bayar', 'bayar', 'batal']);
             $table->timestamps();
 
             $table->foreign('pelanggan_id')->references('id')->on('users')->onDelete('cascade');
