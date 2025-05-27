@@ -1,6 +1,6 @@
 # crud sederhana web penjualan
 
-Ini adalah project Laravel. Ikuti langkah-langkah berikut untuk meng-clone dan menjalankannya secara lokal.
+Ini adalah project Laravel berbasis adminLTE dan sweetalert. Ikuti langkah-langkah berikut untuk meng-clone dan menjalankannya secara lokal.
 
 ## 🚀 Langkah-Langkah Instalasi
 
