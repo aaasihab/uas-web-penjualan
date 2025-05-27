@@ -170,15 +170,15 @@ class AuthController extends Controller
             RateLimiter::hit($key, 120); // Reset dalam 120 detik
 
             // Jika sudah lebih dari 3 kali gagal, blokir selama 5 menit
-            if (RateLimiter::tooManyAttempts($key, 5)) {
-                $blockedUntil = now()->addMinutes(60);
-                Cache::put("blocked:$key", $blockedUntil, 60); // Simpan blokir selama 5 menit
+            if (RateLimiter::tooManyAttempts($key, 1)) {
+                $blockedUntil = now()->addMinutes(1);
+                Cache::put("blocked:$key", $blockedUntil, 1); // Simpan blokir selama 5 menit
 
                 return redirect()->route('blocked')->with('remainingTime', 300);
             }
 
             // Hitung percobaan tersisa
-            $attemptsLeft = RateLimiter::remaining($key, 5);
+            $attemptsLeft = RateLimiter::remaining($key, 1);
             return back()->with('error', "Email atau password salah. Percobaan tersisa: $attemptsLeft.");
         }
 
