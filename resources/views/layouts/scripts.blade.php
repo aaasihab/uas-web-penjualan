@@ -16,23 +16,6 @@
             }
         });
     }
-
-    function confirmLogin(event) {
-        event.preventDefault(); // Mencegah navigasi langsung
-        Swal.fire({
-            title: 'Anda belum login',
-            text: "Silakan login terlebih dahulu untuk mengakses halaman ini.",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Login Sekarang',
-            cancelButtonText: 'Batal'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Arahkan ke halaman login
-                window.location.href = "{{ route('login') }}";
-            }
-        });
-    }
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
